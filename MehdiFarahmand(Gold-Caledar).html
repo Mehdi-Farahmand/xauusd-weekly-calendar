@@ -3,630 +3,436 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>XAU/USD — تحلیل اخبار اقتصادی</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<title>XAU/USD — تحلیل اخبار اقتصادی | مهدی فرهمند</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;900&family=SF+Pro+Display:wght@300;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
+  --navy:#070B14;--navy2:#0B1220;--navy3:#101828;
   --g:#C9A84C;--g2:#F5E4A8;--g3:#E8C96A;--g4:#8B6914;
-  --bg:#090909;--bg2:#0F0F0F;--bg3:#141414;
-  --glass:rgba(255,255,255,0.04);--glass2:rgba(255,255,255,0.07);--glass3:rgba(255,255,255,0.10);
-  --gb:rgba(201,168,76,0.08);--gb2:rgba(201,168,76,0.14);
-  --border:rgba(255,255,255,0.08);--border2:rgba(201,168,76,0.25);--border3:rgba(255,255,255,0.12);
-  --bull:#1DB87A;--bear:#E05252;--neu:#8A8A8A;--warn:#E09340;
-  --text:#F0EDE6;--text2:#A8A39A;--text3:#5A5650;
-  --shadow:0 8px 32px rgba(0,0,0,0.6);
-  --shadow2:0 16px 64px rgba(0,0,0,0.8);
-  --glow:0 0 40px rgba(201,168,76,0.15);
+  --glass:rgba(255,255,255,0.08);
+  --glass2:rgba(255,255,255,0.13);
+  --glass3:rgba(255,255,255,0.18);
+  --glassdark:rgba(8,12,24,0.55);
+  --gb:rgba(201,168,76,0.10);
+  --gb2:rgba(201,168,76,0.18);
+  --gb3:rgba(201,168,76,0.28);
+  --border:rgba(255,255,255,0.13);
+  --border2:rgba(201,168,76,0.38);
+  --bull:#1DB87A;--bear:#E05252;--neu:#8A9BB8;--warn:#E09340;
+  --text:#EEF2FF;--text2:#9BAAC8;--text3:#4A6080;
+  --r20:20px;--r16:16px;--r12:12px;--r8:8px;
+  --blur:blur(28px) saturate(200%);
+  --blur2:blur(16px) saturate(160%);
+  --shadow:0 8px 32px rgba(0,0,0,0.45);
+  --shadow2:0 24px 80px rgba(0,0,0,0.65);
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Vazirmatn',Tahoma,sans-serif;overflow-x:hidden;min-height:100vh}
+body{
+  background:var(--navy);
+  color:var(--text);
+  font-family:'Vazirmatn',Tahoma,sans-serif;
+  overflow-x:hidden;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
 
-.bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
-.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);top:-200px;right:-200px;animation:orbFloat 12s ease-in-out infinite}
-.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);bottom:-100px;left:-100px;animation:orbFloat 16s ease-in-out 4s infinite reverse}
-.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,0.02) 0%,transparent 70%);top:40%;left:30%;animation:orbFloat 20s ease-in-out 2s infinite}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,20px) scale(0.97)}}
+/* ── CANVAS ── */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7}
 
-/* NAVBAR */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  background:rgba(9,9,9,0.6);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
-  border-bottom:1px solid var(--border);transition:all .3s}
-.navbar.scrolled{background:rgba(9,9,9,0.85);box-shadow:0 1px 0 var(--border2),var(--glow)}
+/* ── BG ORBS ── */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,.07),transparent 70%);top:-200px;right:-200px;animation:orbFloat 20s ease-in-out infinite}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(17,34,80,.8),transparent 70%);bottom:-150px;left:-150px;animation:orbFloat 26s ease-in-out 4s infinite reverse}
+.orb3{width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,.04),transparent 70%);top:45%;left:25%;animation:orbFloat 32s ease-in-out 8s infinite}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(30px,-50px) scale(1.06)}70%{transform:translate(-20px,25px) scale(.95)}}
+
+/* ══════════════════════════════════
+   NAVBAR — Glass iOS
+══════════════════════════════════ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+  background:rgba(8,12,24,0.45);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  transition:all .4s
+}
+.navbar.scrolled{
+  background:rgba(8,12,24,0.72);
+  box-shadow:0 1px 0 rgba(201,168,76,.15),0 8px 32px rgba(0,0,0,.4)
+}
 .nav-brand{display:flex;align-items:center;gap:10px}
-.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 10px var(--g),0 0 20px rgba(201,168,76,.3)}50%{opacity:.3;box-shadow:none}}
-.nav-name-fa{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
-.nav-name-sub{font-size:10px;color:var(--text3);letter-spacing:1px;margin-top:1px}
+.nav-pulse-wrap{position:relative;width:8px;height:8px}
+.nav-pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--g)}
+.nav-pulse-ring{position:absolute;inset:-5px;border-radius:50%;border:1.5px solid rgba(201,168,76,.5);animation:ringPulse 2s ease-in-out infinite;opacity:0}
+@keyframes ringPulse{0%{transform:scale(.5);opacity:.9}100%{transform:scale(2);opacity:0}}
+.nav-title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:.2px}
+.nav-sub{font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-top:1px}
 .nav-right{display:flex;align-items:center;gap:8px}
-.nav-tag{font-size:10px;padding:4px 10px;border-radius:20px;background:var(--gb);color:var(--g3);border:1px solid var(--border2);letter-spacing:.5px;display:none}
-@media(min-width:480px){.nav-tag{display:inline-flex}}
-.nav-ig{font-size:11px;padding:5px 14px;border-radius:20px;
-  background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.08));
-  color:var(--g3);font-weight:600;text-decoration:none;letter-spacing:.3px;
-  border:1px solid var(--border2);backdrop-filter:blur(8px);transition:all .25s}
-.nav-ig:hover{background:linear-gradient(135deg,rgba(201,168,76,0.35),rgba(201,168,76,0.15));box-shadow:0 0 20px rgba(201,168,76,.2);transform:translateY(-1px)}
+.nav-chip{
+  font-size:10px;padding:4px 12px;border-radius:20px;
+  background:var(--gb);color:var(--g3);
+  border:1px solid var(--border2);
+  backdrop-filter:blur(12px);
+  display:none
+}
+@media(min-width:440px){.nav-chip{display:inline-flex}}
+.nav-ig{
+  font-size:10px;padding:7px 14px;border-radius:20px;font-weight:600;
+  text-decoration:none;
+  background:rgba(201,168,76,.12);
+  color:var(--g3);border:1px solid rgba(201,168,76,.3);
+  backdrop-filter:blur(12px);
+  transition:all .3s;white-space:nowrap;letter-spacing:.2px
+}
+.nav-ig:hover{background:rgba(201,168,76,.22);box-shadow:0 0 20px rgba(201,168,76,.2);transform:translateY(-1px)}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;z-index:1;overflow:hidden}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;
-  background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);
-  border-radius:100px;padding:7px 18px;font-size:11px;color:var(--g3);letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:36px;animation:fadeUp .8s ease both;backdrop-filter:blur(8px)}
-.hero-h1{font-size:clamp(44px,8vw,96px);font-weight:900;line-height:.95;letter-spacing:-3px;color:var(--text);animation:fadeUp .9s ease .1s both}
-.hero-h1 span{background:linear-gradient(135deg,#8B6914 0%,#C9A84C 35%,#F5E4A8 60%,#C9A84C 80%,#8B6914 100%);
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:100px 24px 80px;
+  position:relative;z-index:1;overflow:hidden
+}
+
+/* badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(201,168,76,.22);
+  border-radius:100px;
+  padding:10px 22px;
+  font-size:12px;color:var(--g3);letter-spacing:1.5px;
+  margin-bottom:52px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 4px 24px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.1);
+  animation:fadeUp .8s ease both;
+  white-space:nowrap
+}
+
+/* HERO TITLE — فاصله عمودی درست */
+.hero-title-block{
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:14px;          /* فاصله عمودی بین خطوط */
+  margin-bottom:28px;
+  animation:fadeUp .9s ease .1s both
+}
+.hero-line1{
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;flex-wrap:wrap
+}
+.hero-line2{
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;flex-wrap:wrap
+}
+.hero-word{
+  font-size:clamp(38px,8.5vw,96px);
+  font-weight:900;line-height:1;letter-spacing:-2px;
+  color:var(--text);display:inline-block
+}
+.hero-word.g{
+  background:linear-gradient(135deg,#5A3E0A 0%,#C9A84C 30%,#F5E4A8 55%,#E8C96A 75%,#8B6914 100%);
+  background-size:200%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  filter:drop-shadow(0 0 30px rgba(201,168,76,.3))}
-.hero-en{font-size:clamp(11px,1.5vw,16px);font-weight:300;color:var(--text3);letter-spacing:8px;text-transform:uppercase;margin-top:16px;animation:fadeUp .9s ease .2s both}
-.hero-line{width:1px;height:60px;background:linear-gradient(180deg,transparent,var(--g),transparent);margin:32px auto;animation:fadeIn 1s ease .4s both}
-.hero-sub{font-size:15px;color:var(--text2);line-height:2;max-width:420px;animation:fadeUp 1s ease .3s both;margin-bottom:44px}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s ease .5s both}
+  filter:drop-shadow(0 0 36px rgba(201,168,76,.35));
+  animation:shimmer 4s ease-in-out infinite
+}
+@keyframes shimmer{0%,100%{filter:drop-shadow(0 0 28px rgba(201,168,76,.3))}50%{filter:drop-shadow(0 0 56px rgba(201,168,76,.6)) drop-shadow(0 0 90px rgba(201,168,76,.15))}}
 
-.btn-gold{border:none;border-radius:14px;padding:13px 28px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Vazirmatn',sans-serif;
-  background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));
-  color:var(--g2);border:1px solid rgba(201,168,76,.3);backdrop-filter:blur(12px);
-  transition:all .3s;letter-spacing:.3px;position:relative;overflow:hidden}
-.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.15),transparent);opacity:0;transition:opacity .3s}
-.btn-gold:hover::before{opacity:1}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.2),0 0 0 1px rgba(201,168,76,.4)}
-.btn-ghost{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border3);border-radius:14px;padding:13px 28px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;backdrop-filter:blur(8px);transition:all .3s}
-.btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:var(--border2);color:var(--text);transform:translateY(-2px)}
+.hero-en{
+  font-size:clamp(9px,1.3vw,12px);
+  font-weight:300;color:var(--text3);
+  letter-spacing:8px;text-transform:uppercase;
+  margin-bottom:6px;
+  animation:fadeUp .9s ease .2s both
+}
+.hero-divider{
+  width:1px;height:56px;
+  background:linear-gradient(180deg,transparent,rgba(201,168,76,.55),transparent);
+  margin:24px auto;
+  animation:fadeIn 1s ease .4s both
+}
+.hero-desc{
+  font-size:clamp(13px,2vw,15px);
+  color:var(--text2);line-height:2.2;max-width:440px;
+  animation:fadeUp 1s ease .3s both;margin-bottom:44px
+}
+.hero-cta{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 1s ease .5s both
+}
 
-.scroll-ind{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;animation:fadeIn 2s ease 1.5s both;opacity:.5}
-.scroll-ind:hover{opacity:1}
-.scroll-ind span{font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase}
-.scroll-arr{width:1px;height:40px;background:linear-gradient(180deg,var(--g),transparent);animation:scrollGrow 2s ease-in-out infinite}
-@keyframes scrollGrow{0%,100%{height:20px;opacity:.3}50%{height:44px;opacity:.8}}
+/* CTA Buttons — iOS Glass */
+.btn-glass{
+  padding:14px 28px;border-radius:16px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Vazirmatn',sans-serif;
+  background:rgba(201,168,76,.15);
+  color:var(--g2);border:1px solid rgba(201,168,76,.38);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  transition:all .3s;letter-spacing:.2px;
+  box-shadow:0 4px 24px rgba(201,168,76,.12),inset 0 1px 0 rgba(255,255,255,.12);
+  position:relative;overflow:hidden
+}
+.btn-glass::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);
+  opacity:0;transition:opacity .3s
+}
+.btn-glass:hover::before{opacity:1}
+.btn-glass:hover{
+  transform:translateY(-3px);
+  background:rgba(201,168,76,.25);
+  box-shadow:0 12px 40px rgba(201,168,76,.25),0 0 0 1px rgba(201,168,76,.5),inset 0 1px 0 rgba(255,255,255,.18)
+}
+.btn-glass-sec{
+  padding:14px 28px;border-radius:16px;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:'Vazirmatn',sans-serif;
+  background:rgba(255,255,255,.06);color:var(--text2);
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  transition:all .3s;
+  box-shadow:0 4px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08)
+}
+.btn-glass-sec:hover{
+  background:rgba(255,255,255,.12);border-color:rgba(201,168,76,.28);color:var(--text);
+  transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.12)
+}
 
-/* CLOCKS BAR — only 2 clocks, centered */
-.clocks-bar{position:relative;z-index:1;padding:16px 20px;display:flex;justify-content:center;gap:0;
-  background:rgba(255,255,255,0.02);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.clock-item{text-align:center;padding:0 40px;border-right:1px solid var(--border)}
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  cursor:pointer;animation:fadeIn 2s ease 1.8s both;opacity:.35;transition:opacity .3s
+}
+.scroll-hint:hover{opacity:.85}
+.scroll-hint span{font-size:8px;color:var(--text3);letter-spacing:4px;text-transform:uppercase}
+.scroll-line{width:1px;height:44px;background:linear-gradient(180deg,var(--g),transparent);animation:scrollAnim 2.5s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{height:20px;opacity:.2}60%{height:48px;opacity:.8}}
+
+/* ══════════════════════════════════
+   CLOCKS — Glass pill
+══════════════════════════════════ */
+.clocks-bar{
+  position:relative;z-index:1;
+  display:flex;justify-content:center;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(32px) saturate(200%);-webkit-backdrop-filter:blur(32px) saturate(200%);
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06)
+}
+.clock-item{
+  text-align:center;padding:18px 40px;
+  border-right:1px solid rgba(255,255,255,.05)
+}
 .clock-item:last-child{border-right:none}
-.clock-city{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;justify-content:center;gap:5px}
-.clock-time{font-family:'SF Mono',Courier,monospace;font-size:15px;font-weight:700;color:var(--g3);letter-spacing:1.5px}
+.clock-city{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:5px}
+.clock-time{font-family:'SF Mono',Courier,monospace;font-size:17px;font-weight:700;color:var(--g3);letter-spacing:2px;text-shadow:0 0 18px rgba(201,168,76,.35)}
 
-/* شیر و خورشید flag inline SVG */
-.lion-flag{display:inline-block;vertical-align:middle}
+.gold-line{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent);position:relative;z-index:1}
 
-.gold-div{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent);position:relative;z-index:1}
-
+/* ══════════════════════════════════
+   SECTIONS
+══════════════════════════════════ */
 section{position:relative;z-index:1;padding:72px 20px}
 .container{max-width:960px;margin:0 auto}
 .sec-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g3);margin-bottom:12px;font-weight:700}
-.sec-title{font-size:clamp(24px,4vw,36px);font-weight:900;line-height:1.15;color:var(--text);margin-bottom:8px}
-.sec-sub{font-size:13px;color:var(--text2);line-height:1.8;max-width:500px}
-
+.sec-title{font-size:clamp(24px,3.8vw,38px);font-weight:900;line-height:1.15;color:var(--text);margin-bottom:10px}
+.sec-sub{font-size:13px;color:var(--text2);line-height:1.9;max-width:500px}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 
-.week-header{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
-.week-day-btn{
-  background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 8px 14px;
-  text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.week-day-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.06),transparent);opacity:0;transition:opacity .3s}
-.week-day-btn:hover::before{opacity:1}
-.week-day-btn:hover{border-color:rgba(201,168,76,.3);transform:translateY(-3px);box-shadow:var(--shadow),0 0 0 1px rgba(201,168,76,.15)}
-.week-day-btn.active{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06);box-shadow:0 0 30px rgba(201,168,76,.1),0 0 0 1px rgba(201,168,76,.2)}
-.week-day-btn.active .wd-name{color:var(--g3)}
-.wd-greg{font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-bottom:5px;text-transform:uppercase}
-.wd-name{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:5px;transition:color .3s}
-.wd-shamsi{font-size:10px;color:var(--text3);margin-bottom:10px;font-weight:500}
-.wd-dots{display:flex;gap:3px;justify-content:center;flex-wrap:wrap}
-.wd-dot{width:7px;height:7px;border-radius:50%}
-.wd-dot.h{background:var(--bear);box-shadow:0 0 4px rgba(224,82,82,.5)}
-.wd-dot.m{background:var(--warn);box-shadow:0 0 4px rgba(224,147,64,.4)}
-.wd-dot.l{background:var(--text3);opacity:.4}
+/* ══════════════════════════════════
+   WEEK TABS — iOS Pill
+══════════════════════════════════ */
+.week-tabs{
+  display:flex;gap:8px;overflow-x:auto;
+  padding:4px 2px 12px;
+  scrollbar-width:none;margin-bottom:20px
+}
+.week-tabs::-webkit-scrollbar{display:none}
+.wtab{
+  flex-shrink:0;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:14px 18px 12px;
+  text-align:center;cursor:pointer;
+  transition:all .3s;min-width:100px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08)
+}
+.wtab.active{
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.06));
+  border-color:rgba(201,168,76,.48);
+  box-shadow:0 0 32px rgba(201,168,76,.12),0 0 0 1px rgba(201,168,76,.28),inset 0 1px 0 rgba(255,255,255,.12)
+}
+.wtab.active .wtab-name{color:var(--g3)}
+.wtab:hover:not(.active){border-color:rgba(201,168,76,.22);transform:translateY(-2px)}
+.wtab-greg{font-size:8px;color:var(--text3);letter-spacing:1.5px;margin-bottom:5px;text-transform:uppercase}
+.wtab-name{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:4px;transition:color .3s}
+.wtab-shamsi{font-size:9px;color:var(--text3);margin-bottom:10px}
+.wtab-dots{display:flex;gap:3px;justify-content:center;flex-wrap:wrap}
+.wtab-dot{width:5px;height:5px;border-radius:50%}
+.wtab-dot.h{background:var(--bear);box-shadow:0 0 5px rgba(224,82,82,.5)}
+.wtab-dot.m{background:var(--warn)}
+.wtab-dot.l{background:var(--text3);opacity:.3}
 
+/* ══════════════════════════════════
+   DAY PANEL — Big Glass Card
+══════════════════════════════════ */
 .day-panel{
-  background:rgba(255,255,255,0.03);border:1px solid var(--border3);border-radius:24px;overflow:hidden;
-  box-shadow:var(--shadow2),inset 0 1px 0 rgba(255,255,255,0.06);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:all .35s}
-.day-panel-header{padding:24px 24px 20px;
-  background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(255,255,255,0.02));
-  border-bottom:1px solid var(--border)}
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;overflow:hidden;
+  box-shadow:var(--shadow2),inset 0 1px 0 rgba(255,255,255,.10);
+  backdrop-filter:blur(36px) saturate(200%);-webkit-backdrop-filter:blur(36px) saturate(200%);
+  transition:opacity .45s ease,transform .45s ease
+}
+.dph{
+  padding:24px 24px 20px;
+  background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(255,255,255,.03));
+  border-bottom:1px solid rgba(255,255,255,.07)
+}
 .dph-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px}
-.dph-date{display:flex;flex-direction:column;gap:4px}
-.dph-day{font-size:20px;font-weight:900;color:var(--text)}
-.dph-dates{font-size:11px;color:var(--text3);display:flex;gap:12px}
-.dph-badge{font-size:10px;padding:5px 14px;border-radius:20px;font-weight:700;letter-spacing:.5px;backdrop-filter:blur(8px)}
-.dph-badge.bull{background:rgba(29,184,122,.1);color:#1DB87A;border:1px solid rgba(29,184,122,.2)}
-.dph-badge.bear{background:rgba(224,82,82,.1);color:#E05252;border:1px solid rgba(224,82,82,.2)}
-.dph-badge.neu{background:rgba(138,138,138,.1);color:var(--neu);border:1px solid rgba(138,138,138,.2)}
-.bias-pills{display:flex;gap:6px;flex-wrap:wrap}
-.bias-pill{font-size:10px;padding:4px 11px;border-radius:20px;font-weight:700;border:1px solid;backdrop-filter:blur(8px)}
-.bp-bull{background:rgba(29,184,122,.07);color:#1DB87A;border-color:rgba(29,184,122,.2)}
-.bp-bear{background:rgba(224,82,82,.07);color:#E05252;border-color:rgba(224,82,82,.2)}
-.bp-neu{background:rgba(138,138,138,.07);color:var(--neu);border-color:rgba(138,138,138,.2)}
+.dph-day{font-size:20px;font-weight:900;color:var(--text);margin-bottom:4px}
+.dph-dates{font-size:10px;color:var(--text3);display:flex;gap:12px;flex-wrap:wrap}
+.badge{font-size:10px;padding:5px 14px;border-radius:20px;font-weight:700;letter-spacing:.4px;backdrop-filter:blur(12px)}
+.badge.bull{background:rgba(29,184,122,.12);color:#1DB87A;border:1px solid rgba(29,184,122,.22)}
+.badge.bear{background:rgba(224,82,82,.12);color:#E05252;border:1px solid rgba(224,82,82,.22)}
+.badge.neu{background:rgba(138,155,184,.1);color:var(--neu);border:1px solid rgba(138,155,184,.18)}
+.prob-pills{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.pp{font-size:10px;padding:4px 11px;border-radius:20px;font-weight:700;border:1px solid;backdrop-filter:blur(8px)}
+.pp.bull{background:rgba(29,184,122,.08);color:#1DB87A;border-color:rgba(29,184,122,.2)}
+.pp.neu{background:rgba(138,155,184,.08);color:var(--neu);border-color:rgba(138,155,184,.18)}
+.pp.bear{background:rgba(224,82,82,.08);color:#E05252;border-color:rgba(224,82,82,.2)}
+.dph-narrative{font-size:12px;color:var(--text2);line-height:2;margin-top:10px}
 
-.ev-table{width:100%;border-collapse:collapse}
-.ev-table th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);padding:12px 14px;text-align:right;font-weight:700;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border)}
-.ev-row{border-bottom:1px solid rgba(255,255,255,0.04);transition:background .2s;cursor:default;animation:rowIn .4s ease both}
-@keyframes rowIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-.ev-row:hover{background:rgba(201,168,76,0.04)}
-.ev-row td{padding:12px 14px;font-size:12px;text-align:right;vertical-align:middle}
-.ev-name{font-weight:600;color:var(--text);line-height:1.4;font-size:12px}
-.ev-name-sub{font-size:10px;color:var(--text3);font-weight:400;margin-top:2px}
-.imp-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
-.imp-h{background:rgba(224,82,82,.1);color:#E05252;border:1px solid rgba(224,82,82,.15)}
-.imp-m{background:rgba(224,147,64,.1);color:var(--warn);border:1px solid rgba(224,147,64,.15)}
-.imp-l{background:rgba(138,138,138,.08);color:var(--neu);border:1px solid rgba(138,138,138,.12)}
-.cur-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;letter-spacing:.5px}
-.cur-usd{background:rgba(29,184,122,.1);color:#1DB87A;border:1px solid rgba(29,184,122,.15)}
-.cur-jpy{background:rgba(55,138,221,.1);color:#5B9FE0;border:1px solid rgba(55,138,221,.15)}
-.cur-eur{background:rgba(130,110,230,.1);color:#9B8FE0;border:1px solid rgba(130,110,230,.15)}
-.xau-up{color:var(--bull);font-weight:700;font-size:11px}
-.xau-dn{color:var(--bear);font-weight:700;font-size:11px}
-.xau-ne{color:var(--neu);font-weight:600;font-size:11px}
-.ev-num{font-family:'SF Mono',monospace;font-size:11px;color:var(--text2)}
-.ev-time{font-family:'SF Mono',Courier,monospace;font-size:11px;color:var(--g3);font-weight:700}
-
-.summary-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;background:rgba(0,0,0,0.2);border-top:1px solid var(--border)}
-@media(max-width:580px){.summary-wrap{grid-template-columns:1fr}}
-.sum-card{background:rgba(255,255,255,0.03);border-radius:14px;padding:16px;border:1px solid var(--border);backdrop-filter:blur(8px)}
-.sum-card-title{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.sum-text{font-size:12px;color:var(--text2);line-height:1.9}
-.sum-chain{display:flex;flex-direction:column}
-.sc-item{display:flex;align-items:flex-start;gap:10px}
-.sc-dot{width:7px;height:7px;border-radius:50%;background:var(--g);flex-shrink:0;margin-top:5px;box-shadow:0 0 6px rgba(201,168,76,.5)}
-.sc-line{width:1px;height:18px;background:linear-gradient(180deg,rgba(201,168,76,.4),transparent);margin:0 0 0 3px}
-.sc-text{padding-bottom:14px}
-.sc-step{font-size:9px;font-weight:700;color:var(--g3);letter-spacing:1.5px;text-transform:uppercase}
-.sc-val{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.6}
-
-.prob-row{display:flex;height:28px;border-radius:10px;overflow:hidden;margin-top:10px;background:rgba(255,255,255,0.04)}
-.prob-bull{background:linear-gradient(90deg,#0E6E50,#1DB87A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.prob-neu{background:linear-gradient(90deg,#555,#8A8A8A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.2s cubic-bezier(.4,0,.2,1) .1s}
-.prob-bear{background:linear-gradient(90deg,#8B2020,#E05252);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.2s cubic-bezier(.4,0,.2,1) .2s}
-
-.tg-outer{padding:18px;border-top:1px solid var(--border)}
-.tg-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.tg-card{background:rgba(23,33,43,0.9);border-radius:16px;padding:18px;font-family:'Vazirmatn',sans-serif;border:1px solid rgba(255,255,255,0.06);position:relative;backdrop-filter:blur(12px)}
-.tg-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.05)}
-.tg-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g4));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.tg-ch{font-size:12px;font-weight:700;color:#E0E8F0}
-.tg-vs{font-size:9px;color:#3A4A5A;margin-top:1px}
-.tg-body{font-size:12px;line-height:2;color:#A0B8C8;white-space:pre-wrap;direction:rtl;text-align:right}
-.tg-ts{font-size:9px;color:#2A3A4A;text-align:left;margin-top:10px;direction:ltr}
-.copy-btn{position:absolute;top:12px;left:12px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);color:var(--g3);font-size:10px;padding:4px 10px;border-radius:8px;cursor:pointer;font-family:'Vazirmatn',sans-serif;transition:all .2s;backdrop-filter:blur(8px)}
-.copy-btn:hover{background:rgba(201,168,76,.22);box-shadow:0 0 12px rgba(201,168,76,.15)}
-
-.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.an-card{
-  background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:20px;
-  transition:all .3s;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  position:relative;overflow:hidden}
-.an-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.04),transparent);opacity:0;transition:opacity .3s}
-.an-card:hover::before{opacity:1}
-.an-card:hover{border-color:rgba(201,168,76,.25);transform:translateY(-3px);box-shadow:var(--shadow),0 0 30px rgba(201,168,76,.08)}
-.an-icon{width:38px;height:38px;border-radius:12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
-.an-title{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--text)}
-.an-desc{font-size:11px;color:var(--text2);line-height:1.8}
-
-footer{border-top:1px solid var(--border);text-align:center;padding:44px 20px;position:relative;z-index:1;
-  background:rgba(255,255,255,0.01);backdrop-filter:blur(8px)}
-footer a{color:var(--g3);text-decoration:none;font-weight:600;transition:color .2s}
-footer a:hover{color:var(--g2)}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@media(max-width:600px){
-  .week-header{grid-template-columns:repeat(2,1fr)}
-  .ev-table th:nth-child(5),.ev-table th:nth-child(6),.ev-table th:nth-child(7),
-  .ev-row td:nth-child(5),.ev-row td:nth-child(6),.ev-row td:nth-child(7){display:none}
-  .clock-item{padding:0 24px}
+/* ══════════════════════════════════
+   EVENTS — Mobile Swipe Cards
+══════════════════════════════════ */
+.events-scroll{
+  padding:20px 20px 4px;
+  display:flex;flex-direction:column;gap:10px
 }
-</style>
-</head>
-<body>
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
-<div class="bg-orb orb3"></div>
-
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <div class="nav-brand">
-    <span class="nav-dot"></span>
-    <div>
-      <div class="nav-name-fa">تحلیل اخبار اقتصادی</div>
-      <div class="nav-name-sub">Economic News Analysis</div>
-    </div>
-  </div>
-  <div class="nav-right">
-    <span class="nav-tag">XAU/USD</span>
-    <a href="https://www.instagram.com/Farahmand.design" target="_blank" class="nav-ig">Mehdi Farahmand ↗</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-tag"><span class="nav-dot" style="width:5px;height:5px;margin-left:4px"></span>تحلیل بنیادی زنده · هفتگی</div>
-  <div>
-    <div class="hero-h1">تقویم <span>اقتصادی</span></div>
-    <div class="hero-h1">طلا <span>XAU/USD</span></div>
-  </div>
-  <div class="hero-en">Weekly Gold Analysis</div>
-  <div class="hero-line"></div>
-  <p class="hero-sub">هر هفته تحلیل جامع رویدادهای اقتصادی با تأثیر بر طلا<br>به وقت تهران · تقویم شمسی و میلادی</p>
-  <div class="hero-cta">
-    <button class="btn-gold" onclick="document.getElementById('calendar').scrollIntoView({behavior:'smooth'})">مشاهده تقویم هفتگی ↓</button>
-    <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">روش تحلیل</button>
-  </div>
-  <div class="scroll-ind" onclick="document.getElementById('calendar').scrollIntoView({behavior:'smooth'})">
-    <span>scroll</span>
-    <div class="scroll-arr"></div>
-  </div>
-</section>
-
-<!-- CLOCKS — فقط تهران و نیویورک -->
-<div class="clocks-bar" id="clocks">
-
-  <!-- پرچم شیر و خورشید -->
-  <div class="clock-item">
-    <div class="clock-city">
-      <svg class="lion-flag" width="20" height="14" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-        <!-- سه نوار: سبز، سفید، قرمز -->
-        <rect width="300" height="200" fill="#239F40"/>
-        <rect y="66" width="300" height="68" fill="#FFFFFF"/>
-        <rect y="134" width="300" height="66" fill="#DA0000"/>
-        <!-- شیر و خورشید -->
-        <g transform="translate(150,100)">
-          <!-- خورشید -->
-          <circle cx="0" cy="-2" r="16" fill="#C9A84C"/>
-          <g stroke="#C9A84C" stroke-width="3" fill="none">
-            <line x1="0" y1="-22" x2="0" y2="-30"/>
-            <line x1="0" y1="18" x2="0" y2="26"/>
-            <line x1="-20" y1="-2" x2="-28" y2="-2"/>
-            <line x1="20" y1="-2" x2="28" y2="-2"/>
-            <line x1="-14" y1="-16" x2="-20" y2="-22"/>
-            <line x1="14" y1="-16" x2="20" y2="-22"/>
-            <line x1="-14" y1="12" x2="-20" y2="18"/>
-            <line x1="14" y1="12" x2="20" y2="18"/>
-          </g>
-          <!-- بدن شیر -->
-          <ellipse cx="0" cy="10" rx="22" ry="13" fill="#C9A84C"/>
-          <!-- سر شیر -->
-          <circle cx="18" cy="-2" r="11" fill="#C9A84C"/>
-          <!-- یال -->
-          <circle cx="18" cy="-2" r="14" fill="none" stroke="#A07820" stroke-width="4" stroke-dasharray="4,3"/>
-          <!-- گوش -->
-          <polygon points="24,-14 28,-20 20,-14" fill="#C9A84C"/>
-          <!-- چشم -->
-          <circle cx="22" cy="-4" r="2" fill="#5A3A00"/>
-          <!-- دم -->
-          <path d="M-22,8 C-35,0 -40,-10 -32,-18" stroke="#C9A84C" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <circle cx="-32" cy="-18" r="4" fill="#C9A84C"/>
-          <!-- پاها -->
-          <line x1="-12" y1="22" x2="-14" y2="34" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/>
-          <line x1="-4" y1="23" x2="-4" y2="35" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/>
-          <line x1="6" y1="22" x2="8" y2="34" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/>
-          <line x1="14" y1="20" x2="18" y2="32" stroke="#C9A84C" stroke-width="5" stroke-linecap="round"/>
-          <!-- شمشیر -->
-          <line x1="4" y1="4" x2="4" y2="-22" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="0" y1="-10" x2="8" y2="-10" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
-        </g>
-      </svg>
-      تهران
-    </div>
-    <div class="clock-time" id="ct">--:--:--</div>
-  </div>
-
-  <!-- آمریکا -->
-  <div class="clock-item">
-    <div class="clock-city">🇺🇸 New York</div>
-    <div class="clock-time" id="cny">--:--:--</div>
-  </div>
-
-</div>
-<div class="gold-div"></div>
-
-<!-- CALENDAR SECTION -->
-<section id="calendar" style="padding:60px 20px">
-  <div class="container">
-    <div class="reveal">
-      <div class="sec-label">📅 تقویم هفتگی</div>
-      <div class="sec-title">اخبار اقتصادی هفته آینده</div>
-      <p class="sec-sub" style="margin-bottom:28px">۲۵–۲۹ خرداد ۱۴۰۵ &nbsp;|&nbsp; June 15–19, 2026 · روی هر روز کلیک کنید</p>
-    </div>
-    <div class="week-header reveal" id="week-btns"></div>
-    <div class="day-panel reveal" id="day-panel"></div>
-  </div>
-</section>
-
-<div class="gold-div"></div>
-
-<!-- ABOUT -->
-<section id="about" style="padding:60px 20px">
-  <div class="container">
-    <div class="reveal" style="margin-bottom:36px">
-      <div class="sec-label">🔬 چارچوب تحلیل</div>
-      <div class="sec-title">مسیر تأثیر خبر بر طلا</div>
-      <p class="sec-sub">هر رویداد اقتصادی از این مسیر بر قیمت XAU/USD تأثیر می‌گذارد</p>
-    </div>
-    <div class="analysis-grid reveal">
-      <div class="an-card"><div class="an-icon">📰</div><div class="an-title">رویداد خبری</div><div class="an-desc">CPI · NFP · GDP · FOMC · نرخ بهره بانک‌های مرکزی · داده‌های اشتغال</div></div>
-      <div class="an-card"><div class="an-icon">🏦</div><div class="an-title">انتظارات فدرال رزرو</div><div class="an-desc">تغییر احتمال کاهش یا افزایش نرخ بهره و مسیر سیاست پولی</div></div>
-      <div class="an-card"><div class="an-icon">📈</div><div class="an-title">بازده اوراق و DXY</div><div class="an-desc">US10Y · بازده واقعی · شاخص دلار — رابطه معکوس با طلا</div></div>
-      <div class="an-card"><div class="an-icon">🥇</div><div class="an-title">XAU/USD طلا</div><div class="an-desc">تأثیر نهایی — سناریوی صعودی، نزولی یا خنثی با احتمال‌های درصدی</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="gold-div"></div>
-
-<footer>
-  <div style="font-size:22px;font-weight:900;background:linear-gradient(135deg,#8B6914,#C9A84C,#F5E4A8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px">تحلیل اخبار اقتصادی</div>
-  <div style="font-size:12px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px">Economic News Analysis</div>
-  <p style="font-size:12px;color:var(--text3);margin-bottom:16px">تحلیل‌گر بازارهای مالی · متخصص XAU/USD</p>
-  <a href="https://www.instagram.com/Farahmand.design" target="_blank">📸 Mehdi Farahmand</a>
-  <p style="font-size:10px;color:var(--text3);margin-top:22px;letter-spacing:1px">تمامی حقوق محفوظ است © ۱۴۰۵</p>
-</footer>
-
-<script>
-// ── CLOCKS — دقیق با Intl.DateTimeFormat ──────────────────────────
-function getTimeParts(tz) {
-  const now = new Date();
-  const fmt = new Intl.DateTimeFormat('en-US', {
-    timeZone: tz,
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
-    hour12: false
-  });
-  const parts = fmt.formatToParts(now);
-  const get = t => parts.find(p => p.type === t).value;
-  let h = get('hour');
-  if (h === '24') h = '00';
-  return `${h}:${get('minute')}:${get('second')}`;
+.ev-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;padding:16px 18px;
+  transition:all .25s;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 2px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.07);
+  animation:cardIn .4s ease both;
+  cursor:pointer;
+  /* Swipe/collapsible */
+  overflow:hidden
 }
-
-function tick() {
-  document.getElementById('ct').textContent  = getTimeParts('Asia/Tehran');
-  document.getElementById('cny').textContent = getTimeParts('America/New_York');
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.ev-card:hover{
+  border-color:rgba(201,168,76,.22);
+  transform:translateX(-3px);
+  box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1)
 }
-setInterval(tick, 1000);
-tick();
-
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-});
-
-// ── DATA ──────────────────────────────────────────────────────────
-const DAYS=[
-  {id:0,name:'دوشنبه',shamsi:'۲۵ خرداد',greg:'Jun 15',bias:'neu',biasLabel:'خنثی',
-    prob:{bull:30,neu:45,bear:25},
-    narrative:'روز نسبتاً آرام با چند داده متوسط آمریکا. داده‌های صنعتی می‌تواند انتظارات رشد را تنظیم کند.',
-    chain:[
-      {step:'رویداد',val:'داده‌های صنعتی و مسکن آمریکا'},
-      {step:'تأثیر اقتصادی',val:'نشانه‌هایی از سرعت رشد صنعتی'},
-      {step:'انتظارات فد',val:'تأثیر محدود — داده‌های کم‌اهمیت‌تر'},
-      {step:'DXY / Yields',val:'نوسان جزئی — احتمالاً ثابت'},
-      {step:'XAU/USD',val:'محدوده محدود — بدون تغییر عمده'},
-    ],
-    telegram:`📊🔥 مهم‌ترین اخبار اقتصادی دوشنبه ۲۵ خرداد | Jun 15\nبه وقت ایران\n\n🟡 ۱۶:۰۰ — شاخص تولیدات صنعتی نیویورک (USD)\n📊 قبلی: — | پیش‌بینی: —\n📈 صعودی: داده ضعیف → DXY↓ → XAU↑\n📉 نزولی: داده قوی → DXY↑ → XAU↓\n\n━━━━━━━━━━━━━━\n📌 جمع‌بندی: روز آرام — تأثیر محدود\n📊 احتمالات: 🟢۳۰٪ | ⚪۴۵٪ | 🔴۲۵٪\n#طلا #XAU #تحلیل_بنیادی`,
-    events:[
-      {name:'فعالیت بخش خدمات صنایع م/م',sub:'',cur:'JPY',time:'۰۸:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'شاخص تولیدات صنعتی نیویورک',sub:'Empire State',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'نرخ استفاده از ظرفیت تولید',sub:'',cur:'USD',time:'۱۶:۴۵',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'تولیدات صنعتی آمریکا م/م',sub:'',cur:'USD',time:'۱۶:۴۵',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'شاخص بازار مسکن NAHB',sub:'',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'l',xau:'neu'},
-    ]
-  },
-  {id:1,name:'سه‌شنبه',shamsi:'۲۶ خرداد',greg:'Jun 16',bias:'bear',biasLabel:'نزولی — مراقبت BOJ',
-    prob:{bull:25,neu:30,bear:45},
-    narrative:'نشست بانک مرکزی ژاپن مهم‌ترین رویداد روز. تصمیم BOJ می‌تواند جریان ریسک جهانی را تغییر دهد.',
-    chain:[
-      {step:'رویداد',val:'تصمیم نرخ بهره بانک مرکزی ژاپن (BOJ)'},
-      {step:'تأثیر اقتصادی',val:'سیاست پولی سومین اقتصاد جهان'},
-      {step:'جریان ریسک جهانی',val:'تغییر در carry trade · فشار بر دلار'},
-      {step:'DXY / Yields',val:'BOJ هاوکیش → ین تقویت → DXY↓'},
-      {step:'XAU/USD',val:'BOJ هاوکیش → ریسک‌آف → طلا تقویت احتمالی'},
-    ],
-    telegram:`📊🔥 مهم‌ترین اخبار اقتصادی سه‌شنبه ۲۶ خرداد | Jun 16\nبه وقت ایران\n\n🔴 ۰۶:۳۴ — نرخ بهره بانک مرکزی ژاپن (JPY)\n📊 قبلی: 0.75%\n📈 افزایش نرخ → ین قوی → XAU↑\n📉 حفظ نرخ داویش → XAU↓\n💡 کنفرانس ۱۰:۰۰ مهم‌تر از تصمیم است\n\n━━━━━━━━━━━━━━\n📌 BOJ محرک اصلی روز\n📊 احتمالات: 🟢۲۵٪ | ⚪۳۰٪ | 🔴۴۵٪\n#طلا #XAU #تحلیل_بنیادی`,
-    events:[
-      {name:'بیانیه سیاست پولی بانک مرکزی ژاپن',sub:'BOJ Statement',cur:'JPY',time:'۰۶:۳۴',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'نرخ بهره بانک مرکزی ژاپن',sub:'BOJ Rate Decision',cur:'JPY',time:'۰۶:۳۴',prev:'0.75%',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'کنفرانس مطبوعاتی بانک مرکزی ژاپن',sub:'Press Conference',cur:'JPY',time:'۱۰:۰۰',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'تغییرات هفتگی اشتغال ADP',sub:'ADP Employment',cur:'USD',time:'۱۵:۴۵',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'مجوزهای ساخت و ساز',sub:'Building Permits',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'l',xau:'neu'},
-      {name:'شاخص قیمت واردات م/م',sub:'Import Prices',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-    ]
-  },
-  {id:2,name:'چهارشنبه',shamsi:'۲۷ خرداد',greg:'Jun 17',bias:'bear',biasLabel:'⚠️ فوق‌العاده پرریسک — FOMC',
-    prob:{bull:20,neu:15,bear:65},
-    narrative:'مهم‌ترین روز هفته. تصمیم FOMC و کنفرانس پاول می‌تواند جهت طلا را برای هفته‌ها تعیین کند.',
-    chain:[
-      {step:'رویداد',val:'FOMC Rate Decision + Powell Press Conference'},
-      {step:'تأثیر اقتصادی',val:'سیاست پولی فدرال رزرو — بزرگ‌ترین بانک مرکزی جهان'},
-      {step:'انتظارات نرخ بهره',val:'هر تغییر در dot plot = تغییر بزرگ در بازار'},
-      {step:'DXY + US10Y',val:'لحن هاوکیش → DXY↑ + Yields↑ → فشار بر طلا'},
-      {step:'XAU/USD',val:'بحرانی‌ترین لحظه هفته برای طلا'},
-    ],
-    telegram:`📊🔥 مهم‌ترین اخبار چهارشنبه ۲۷ خرداد | Jun 17\nبه وقت ایران\n\n⚠️ مهم‌ترین روز هفته برای XAU/USD\n\n🔴🔴 ۲۱:۳۰ — نرخ بهره فدرال فاندز (FOMC)\n📊 قبلی: 3.75%\n📈 کاهش نرخ یا لحن داویش → XAU↑ قوی\n📉 حفظ + هاوکیش → XAU↓ شدید\n⚡ نوسان ۲۰۰-۴۰۰ پوینت در ۳۰ دقیقه اول\n\n🔴 ۲۲:۰۰ — کنفرانس پاول\n\n━━━━━━━━━━━━━━\n📌 قبل از ۲۱:۳۰ پوزیشن سنگین نگیرید\n📊 احتمالات: 🟢۲۰٪ | ⚪۱۵٪ | 🔴۶۵٪\n#طلا #XAU #FOMC #تحلیل_بنیادی`,
-    events:[
-      {name:'هسته خرده‌فروشی آمریکا م/م',sub:'Core Retail Sales',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'خرده‌فروشی آمریکا م/م',sub:'Retail Sales',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'موجودی انبار کسب و کارها',sub:'Business Inventories',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'l',xau:'neu'},
-      {name:'شاخص خانه‌های در انتظار فروش',sub:'Pending Home Sales',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'موجودی نفت خام آمریکا',sub:'Crude Oil Inventories',cur:'USD',time:'۱۸:۰۰',prev:'-',fore:'-',act:'-',imp:'l',xau:'neu'},
-      {name:'نرخ بهره فدرال فاندز 🔴',sub:'FOMC Rate Decision',cur:'USD',time:'۲۱:۳۰',prev:'3.75%',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'بیانیه کمیته بازار باز فدرال',sub:'FOMC Statement',cur:'USD',time:'۲۱:۳۰',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-      {name:'کنفرانس مطبوعاتی پاول',sub:'Powell Press Conference',cur:'USD',time:'۲۲:۰۰',prev:'-',fore:'-',act:'-',imp:'h',xau:'bear'},
-    ]
-  },
-  {id:3,name:'پنج‌شنبه',shamsi:'۲۸ خرداد',greg:'Jun 18',bias:'neu',biasLabel:'هضم FOMC دیروز',
-    prob:{bull:35,neu:35,bear:30},
-    narrative:'بازار در حال هضم تصمیم FOMC دیروز است. جهت امروز کاملاً به لحن دیروز بستگی دارد.',
-    chain:[
-      {step:'رویداد',val:'ادامه هضم FOMC + مدعیان بیکاری'},
-      {step:'تأثیر اقتصادی',val:'بازار کار آمریکا — نشانه‌های صنعتی'},
-      {step:'انتظارات فد',val:'واکنش ثانویه به تصمیم دیروز'},
-      {step:'DXY / Yields',val:'تثبیت یا ادامه حرکت دیروز'},
-      {step:'XAU/USD',val:'جهت بستگی کامل به FOMC دیروز دارد'},
-    ],
-    telegram:`📊🔥 مهم‌ترین اخبار پنج‌شنبه ۲۸ خرداد | Jun 18\nبه وقت ایران\n\n📌 بازار هنوز هضم FOMC دیروز است\n\n🟡 ۱۶:۰۰ — مدعیان بیکاری آمریکا\n📈 بالاتر → بازار کار سرد → XAU↑\n📉 پایین‌تر → اقتصاد پایدار → XAU↓\n\n━━━━━━━━━━━━━━\n📌 روز هضم و تثبیت\n📊 احتمالات: 🟢۳۵٪ | ⚪۳۵٪ | 🔴۳۰٪\n#طلا #XAU #تحلیل_بنیادی`,
-    events:[
-      {name:'هسته شاخص قیمت مصرف‌کننده ژاپن',sub:'Core CPI Japan',cur:'JPY',time:'۰۳:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'صورت‌جلسه نشست سیاست پولی ژاپن',sub:'BOJ Minutes',cur:'JPY',time:'۰۳:۲۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'شاخص تولیدات صنعتی فیلادلفیا',sub:'Philly Fed',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'مدعیان بیکاری آمریکا',sub:'Jobless Claims',cur:'USD',time:'۱۶:۰۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'شاخص پیشرو کنفرانس‌بورد م/م',sub:'CB Leading Index',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
-      {name:'ذخیره گاز طبیعی آمریکا',sub:'Natural Gas Storage',cur:'USD',time:'۱۸:۰۰',prev:'-',fore:'-',act:'-',imp:'l',xau:'neu'},
-    ]
-  },
-  {id:4,name:'جمعه',shamsi:'۲۹ خرداد',greg:'Jun 19',bias:'neu',biasLabel:'بازارها تعطیل',
-    prob:{bull:0,neu:100,bear:0},
-    narrative:'جمعه ۱۹ ژوئن (Juneteenth) تعطیل رسمی فدرال آمریکاست. بانک‌ها و بورس‌های آمریکا بسته‌اند. هیچ داده اقتصادی منتشر نمی‌شود. بازار فارکس و طلا با نقدینگی بسیار پایین معامله می‌شوند.',
-    chain:[
-      {step:'رویداد',val:'Juneteenth — تعطیل رسمی فدرال آمریکا'},
-      {step:'وضعیت بازار',val:'NYSE · NASDAQ · بانک‌های آمریکا بسته'},
-      {step:'نقدینگی',val:'فارکس و طلا با حجم بسیار پایین'},
-      {step:'DXY / Yields',val:'بدون معامله — داده‌های قابل اعتماد نیست'},
-      {step:'XAU/USD',val:'اسپرد بالا · از معامله بدون برنامه پرهیز کنید'},
-    ],
-    telegram:`📊 اطلاعیه مهم — جمعه ۲۹ خرداد | Jun 19\n\n🔴 بازارهای آمریکا امروز تعطیل هستند\n\n🇺🇸 Juneteenth — تعطیل رسمی فدرال\n• NYSE بسته است\n• NASDAQ بسته است\n• بانک‌های آمریکا بسته هستند\n• هیچ داده اقتصادی منتشر نمی‌شود\n\n⚠️ نکات مهم برای معامله‌گران طلا:\n• نقدینگی بسیار پایین است\n• اسپرد بروکرها بالاتر از حد معمول\n• نوسانات غیرعادی محتمل است\n• از باز کردن پوزیشن جدید خودداری کنید\n\n━━━━━━━━━━━━━━\n📌 استراتژی: نظاره‌گر باشید\n#طلا #XAU #تعطیلی_بازار`,
-    events:[
-      {name:'🔴 تعطیل رسمی فدرال آمریکا',sub:'Juneteenth National Independence Day',cur:'USD',time:'تمام روز',prev:'-',fore:'-',act:'-',imp:'h',xau:'neu'},
-      {name:'بورس نیویورک — بسته',sub:'NYSE Closed',cur:'USD',time:'تمام روز',prev:'-',fore:'-',act:'-',imp:'h',xau:'neu'},
-      {name:'بورس نزدک — بسته',sub:'NASDAQ Closed',cur:'USD',time:'تمام روز',prev:'-',fore:'-',act:'-',imp:'h',xau:'neu'},
-      {name:'بانک‌های آمریکا — بسته',sub:'US Banks Closed',cur:'USD',time:'تمام روز',prev:'-',fore:'-',act:'-',imp:'h',xau:'neu'},
-    ]
-  }
-];
-
-let activeDay=2;
-
-function buildWeekBtns(){
-  const c=document.getElementById('week-btns');
-  c.innerHTML=DAYS.map(d=>{
-    const dots=d.events.map(e=>`<div class="wd-dot ${e.imp}"></div>`).join('');
-    const biasC=d.bias==='bull'?'#1DB87A':d.bias==='bear'?'#E05252':'#8A8A8A';
-    return`<div class="week-day-btn${d.id===activeDay?' active':''}" onclick="selectDay(${d.id})">
-      <div class="wd-greg">${d.greg}</div>
-      <div class="wd-name">${d.name}</div>
-      <div class="wd-shamsi" style="color:${biasC};font-size:9px;font-weight:700">${d.shamsi}</div>
-      <div class="wd-dots">${dots}</div>
-    </div>`;
-  }).join('');
+.ev-card.critical{
+  border-color:rgba(224,82,82,.3);
+  background:rgba(224,82,82,.04)
 }
-
-function renderDay(id){
-  const d=DAYS[id];
-  const bm={bull:'bull',bear:'bear',neu:'neu'};
-  const xh={bull:`<span class="xau-up">↑ صعودی</span>`,bear:`<span class="xau-dn">↓ نزولی</span>`,neu:`<span class="xau-ne">→ خنثی</span>`};
-  const im={h:'imp-h',m:'imp-m',l:'imp-l'};
-  const il={h:'بالا',m:'متوسط',l:'پایین'};
-  const cm={USD:'cur-usd',JPY:'cur-jpy',EUR:'cur-eur'};
-
-  const evRows=d.events.map((ev,i)=>`
-    <tr class="ev-row" style="animation-delay:${i*.06}s">
-      <td><div class="ev-name">${ev.name}</div>${ev.sub?`<div class="ev-name-sub">${ev.sub}</div>`:''}</td>
-      <td><span class="cur-badge ${cm[ev.cur]||'cur-usd'}">${ev.cur}</span></td>
-      <td><span class="ev-time">${ev.time}</span></td>
-      <td><span class="imp-badge ${im[ev.imp]}">${il[ev.imp]}</span></td>
-      <td><span class="ev-num">${ev.prev}</span></td>
-      <td><span class="ev-num">${ev.fore}</span></td>
-      <td><span class="ev-num">${ev.act}</span></td>
-      <td>${xh[ev.xau]}</td>
-    </tr>`).join('');
-
-  const ch=d.chain.map((c,i)=>`
-    <div class="sc-item">
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <div class="sc-dot"></div>
-        ${i<d.chain.length-1?'<div class="sc-line"></div>':''}
-      </div>
-      <div class="sc-text"><div class="sc-step">${c.step}</div><div class="sc-val">${c.val}</div></div>
-    </div>`).join('');
-
-  const panel=document.getElementById('day-panel');
-  panel.style.opacity='0';panel.style.transform='translateY(14px)';
-  panel.innerHTML=`
-    <div class="day-panel-header">
-      <div class="dph-top">
-        <div class="dph-date">
-          <div class="dph-day">${d.name} — ${d.shamsi}</div>
-          <div class="dph-dates"><span>${d.greg}, 2026</span><span>UTC+3:30 تهران</span></div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
-          <span class="dph-badge ${bm[d.bias]}">${d.biasLabel}</span>
-          <div class="bias-pills">
-            <span class="bias-pill bp-bull">🟢 ${d.prob.bull}٪</span>
-            <span class="bias-pill bp-neu">⚪ ${d.prob.neu}٪</span>
-            <span class="bias-pill bp-bear">🔴 ${d.prob.bear}٪</span>
-          </div>
-        </div>
-      </div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.9;padding-bottom:4px">${d.narrative}</p>
-    </div>
-    <div style="overflow-x:auto">
-      <table class="ev-table">
-        <thead><tr><th>رویداد</th><th>ارز</th><th>زمان</th><th>تأثیر</th><th>قبلی</th><th>پیش‌بینی</th><th>فعلی</th><th>XAU</th></tr></thead>
-        <tbody>${evRows}</tbody>
-      </table>
-    </div>
-    <div class="summary-wrap">
-      <div class="sum-card">
-        <div class="sum-card-title">مسیر تأثیر بر طلا</div>
-        <div class="sum-chain">${ch}</div>
-      </div>
-      <div class="sum-card">
-        <div class="sum-card-title">مدل احتمالات XAU/USD</div>
-        <div class="prob-row">
-          <div class="prob-bull" style="width:0%" id="pb-bull">${d.prob.bull}٪</div>
-          <div class="prob-neu" style="width:0%" id="pb-neu">${d.prob.neu}٪</div>
-          <div class="prob-bear" style="width:0%" id="pb-bear">${d.prob.bear}٪</div>
-        </div>
-        <div class="sum-card-title" style="margin-top:18px">خلاصه روز</div>
-        <div class="sum-text">${d.narrative}</div>
-      </div>
-    </div>
-    <div class="tg-outer">
-      <div class="tg-label">📱 پست آماده تلگرام</div>
-      <div class="tg-card">
-        <div class="tg-hdr">
-          <div class="tg-av">MF</div>
-          <div><div class="tg-ch">Mehdi Farahmand | طلا</div><div class="tg-vs">XAU/USD · ${d.greg}</div></div>
-        </div>
-        <div class="tg-body">${d.telegram}</div>
-        <div class="tg-ts">${d.greg}, 2026 · 09:00 AM ✓✓</div>
-        <button class="copy-btn" onclick="copyTg(${d.id})">کپی 📋</button>
-      </div>
-    </div>`;
-
-  requestAnimationFrame(()=>{
-    panel.style.transition='opacity .45s ease,transform .45s ease';
-    panel.style.opacity='1';panel.style.transform='none';
-    setTimeout(()=>{
-      document.getElementById('pb-bull').style.width=d.prob.bull+'%';
-      document.getElementById('pb-neu').style.width=d.prob.neu+'%';
-      document.getElementById('pb-bear').style.width=d.prob.bear+'%';
-    },250);
-  });
+.ev-header{display:flex;align-items:center;gap:10px}
+.ev-imp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ev-imp-dot.h{background:var(--bear);box-shadow:0 0 8px rgba(224,82,82,.5)}
+.ev-imp-dot.m{background:var(--warn);box-shadow:0 0 6px rgba(224,147,64,.4)}
+.ev-imp-dot.l{background:var(--text3)}
+.ev-name-block{flex:1;min-width:0}
+.ev-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;word-break:keep-all}
+.ev-name-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.ev-meta{display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.ev-time-badge{
+  font-family:'SF Mono',Courier,monospace;
+  font-size:11px;font-weight:700;color:var(--g3);
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);
+  padding:3px 8px;border-radius:8px;
+  text-shadow:0 0 10px rgba(201,168,76,.3)
 }
+.cur-tag{font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px;letter-spacing:.5px}
+.cur-usd{background:rgba(29,184,122,.1);color:#1DB87A;border:1px solid rgba(29,184,122,.18)}
+.cur-jpy{background:rgba(91,159,224,.1);color:#5B9FE0;border:1px solid rgba(91,159,224,.18)}
+.imp-tag{font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px}
+.imp-h{background:rgba(224,82,82,.1);color:#E05252;border:1px solid rgba(224,82,82,.18)}
+.imp-m{background:rgba(224,147,64,.1);color:var(--warn);border:1px solid rgba(224,147,64,.18)}
+.imp-l{background:rgba(138,155,184,.08);color:var(--neu);border:1px solid rgba(138,155,184,.15)}
 
-function selectDay(id){
-  activeDay=id;
-  document.querySelectorAll('.week-day-btn').forEach((b,i)=>b.classList.toggle('active',i===id));
-  renderDay(id);
-  document.getElementById('day-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+/* Expandable detail */
+.ev-detail{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s;
+  opacity:0
 }
-
-function copyTg(id){
-  navigator.clipboard.writeText(DAYS[id].telegram).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    btn.textContent='✅ کپی شد!';
-    setTimeout(()=>btn.textContent='کپی 📋',2000);
-  });
+.ev-detail.open{max-height:200px;opacity:1}
+.ev-detail-inner{
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px
 }
+.ev-stat{text-align:center}
+.ev-stat-label{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.ev-stat-val{font-family:'SF Mono',Courier,monospace;font-size:13px;font-weight:700;color:var(--text2)}
+.ev-xau-row{margin-top:12px;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04)}
+.ev-xau-label{font-size:10px;color:var(--text3)}
+.xau-up{color:var(--bull);font-weight:700;font-size:12px}
+.xau-dn{color:var(--bear);font-weight:700;font-size:12px}
+.xau-ne{color:var(--neu);font-weight:600;font-size:12px}
 
-buildWeekBtns();
-renderDay(activeDay);
+/* ══════════════════════════════════
+   SUMMARY BOTTOM
+══════════════════════════════════ */
+.sum-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  padding:20px;border-top:1px solid rgba(255,255,255,.05)
+}
+@media(max-width:540px){.sum-grid{grid-template-columns:1fr}}
+.sum-card{
+  background:rgba(255,255,255,.04);border-radius:20px;padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07)
+}
+.sum-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.chain-list{display:flex;flex-direction:column;gap:0}
+.chain-item{display:flex;gap:12px;align-items:flex-start}
+.chain-dot-col{display:flex;flex-direction:column;align-items:center}
+.chain-dot{width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 8px rgba(201,168,76,.5);margin-top:4px;flex-shrink:0}
+.chain-vline{width:1px;height:18px;background:linear-gradient(180deg,rgba(201,168,76,.45),transparent)}
+.chain-step{font-size:9px;font-weight:700;color:var(--g3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
+.chain-val{font-size:11px;color:var(--text2);line-height:1.7;padding-bottom:12px}
 
-const obs=new IntersectionObserver(els=>{
-  els.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
-},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-</script>
-</body>
-</html>
+.prob-bar{
+  display:flex;height:28px;border-radius:12px;overflow:hidden;
+  background:rgba(255,255,255,.04);margin-top:10px;
+  box-shadow:inset 0 1px 0 rgba(0,0,0,.2)
+}
+.prob-bull{background:linear-gradient(90deg,#0A5C40,#1DB87A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.prob-neu{background:linear-gradient(90deg,#28395A,#4E6890);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s .1s cubic-bezier(.4,0,.2,1)}
+.prob-bear{background:linear-gradient(90deg,#6B1515,#E05252);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s .2s cubic-bezier(.4,0,.2,1)}
+
+/* ══════════════════════════════════
+   TELEGRAM CARD
+══════════════════════════════════ */
+.tg-wrap{padding:0 20px 20px}
+.tg-section-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.tg-card{
+  background:rgba(10,18,36,.85);border-radius:22px;
+  border:1px solid rgba(255,255,255,.07);
+  padding:20px;position:relative;
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  box-shadow:0 8px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06)
+}
+.tg-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.05)}
+.tg-av{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--g),var(--g4));
+  display:flex

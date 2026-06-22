@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>XAU/USD — تحلیل اخبار اقتصادی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0A1628;--navy2:#0D1E38;--navy3:#112244;--navy4:#162B55;
+  --g:#C9A84C;--g2:#F5E4A8;--g3:#E8C96A;--g4:#8B6914;--g5:#FFD97D;
+  --glass:rgba(255,255,255,0.07);--glass2:rgba(255,255,255,0.12);--glass3:rgba(255,255,255,0.18);
+  --glassdark:rgba(10,22,40,0.6);--glassdark2:rgba(10,22,40,0.8);
+  --gb:rgba(201,168,76,0.10);--gb2:rgba(201,168,76,0.18);--gb3:rgba(201,168,76,0.28);
+  --border:rgba(255,255,255,0.12);--border2:rgba(201,168,76,0.35);--border3:rgba(255,255,255,0.20);
+  --bordergold:rgba(201,168,76,0.5);
+  --bull:#1DB87A;--bear:#E05252;--neu:#8A9BB8;--warn:#E09340;
+  --text:#EEF2FF;--text2:#9BAAC8;--text3:#4A6080;
+  --glow:0 0 60px rgba(201,168,76,0.2);
+  --glow2:0 0 120px rgba(201,168,76,0.12);
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+  --shadow2:0 24px 80px rgba(0,0,0,0.6);
+  --blur:blur(24px) saturate(180%);
+  --bg:#0A1628;
+  --mesh-1:rgba(201,168,76,0.08);
+  --mesh-2:rgba(17,34,68,0.9);
+  --mesh-3:rgba(201,168,76,0.05);
+  --glass-0:rgba(255,255,255,0.035);
+  --glass-1:rgba(255,255,255,0.06);
+  --glass-2:rgba(255,255,255,0.07);
+  --glass-3:rgba(255,255,255,0.12);
+  --glass-top:rgba(255,255,255,0.20);
+  --glass-top-2:rgba(255,255,255,0.16);
+  --border-1:rgba(255,255,255,0.07);
+  --border-2:rgba(255,255,255,0.13);
+  --navbar-bg:rgba(10,22,40,0.45);
+  --navbar-bg-s:rgba(10,22,40,0.65);
+  --sum-bg:rgba(0,0,0,0.15);
+  --gold-text-gradient:linear-gradient(135deg,#6B4F10 0%,#C9A84C 30%,#F5E4A8 55%,#E8C96A 75%,#8B6914 100%);
+}
+:root[data-theme="light"]{
+  --g:#9C7A1F;--g2:#7A5C12;--g3:#8B6914;--g4:#6B4F10;--g5:#B8902A;
+  --text:#1B2640;--text2:#56668A;--text3:#7C8AA3;
+  --bg:#F7F2E6;
+  --mesh-1:rgba(201,168,76,0.12);
+  --mesh-2:rgba(201,168,76,0.05);
+  --mesh-3:rgba(201,168,76,0.07);
+  --glass-0:rgba(255,255,255,0.55);
+  --glass-1:rgba(255,255,255,0.62);
+  --glass-2:rgba(255,255,255,0.70);
+  --glass-3:rgba(255,255,255,0.85);
+  --glass-top:rgba(255,255,255,0.92);
+  --glass-top-2:rgba(255,255,255,0.85);
+  --border-1:rgba(27,38,64,0.09);
+  --border-2:rgba(27,38,64,0.14);
+  --navbar-bg:rgba(247,242,230,0.72);
+  --navbar-bg-s:rgba(247,242,230,0.9);
+  --sum-bg:rgba(27,38,64,0.045);
+  --gold-text-gradient:linear-gradient(135deg,#5C4309 0%,#8B6914 30%,#A8801F 55%,#7A5C12 75%,#5C4309 100%);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Vazirmatn',Tahoma,sans-serif;overflow-x:hidden;min-height:100vh;transition:background .5s ease,color .5s ease}
+body.loading{overflow:hidden}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .6s ease,visibility .6s ease}
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-rings{position:relative;width:118px;height:118px;margin-bottom:24px}
+.loader-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
+.loader-ring.r1{border-top-color:var(--g);border-right-color:#E8C96A;animation:loaderSpin 1.8s linear infinite}
+.loader-ring.r2{inset:13px;border-bottom-color:#F5E4A8;border-left-color:#C9A84C;animation:loaderSpin 1.3s linear infinite reverse}
+.loader-coin{position:absolute;inset:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFD97D,#C9A84C 55%,#8B6914 100%);box-shadow:0 0 30px rgba(201,168,76,.6),inset 0 2px 6px rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;animation:coinPulse 2s ease-in-out infinite}
+.loader-coin span{font-size:20px;font-weight:900;color:#3a2a05;letter-spacing:.5px}
+@keyframes loaderSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes coinPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.loader-chart{display:flex;align-items:flex-end;gap:5px;height:34px;margin-bottom:20px}
+.loader-bar-c{width:6px;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#F5E4A8,#C9A84C)}
+.loader-bar-c:nth-child(1){animation:barGrow 1.4s ease-in-out infinite}
+.loader-bar-c:nth-child(2){animation:barGrow 1.4s ease-in-out .15s infinite}
+.loader-bar-c:nth-child(3){animation:barGrow 1.4s ease-in-out .3s infinite}
+.loader-bar-c:nth-child(4){animation:barGrow 1.4s ease-in-out .45s infinite}
+.loader-bar-c:nth-child(5){animation:barGrow 1.4s ease-in-out .6s infinite}
+@keyframes barGrow{0%,100%{height:8px}50%{height:34px}}
+.loader-label{font-size:10px;color:#E8C96A;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.loader-progress{width:160px;height:3px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:20px}
+.loader-progress-fill{height:100%;width:0%;border-radius:3px;background:linear-gradient(90deg,#8B6914,#C9A84C,#F5E4A8);animation:loaderFill 2.1s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes loaderFill{from{width:0%}to{width:100%}}
+.loader-credit{font-size:11px;color:#4A6080;letter-spacing:1.5px;margin-top:22px}
+.loader-credit b{background:linear-gradient(135deg,#8B6914,#C9A84C,#F5E4A8,#C9A84C,#8B6914);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900;letter-spacing:2.5px;animation:shimmer 3s ease-in-out infinite;margin-right:4px}
+
+/* PARTICLES */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* BG MESH */
+.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-mesh::before{content:'';position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,var(--mesh-1) 0%,transparent 65%);top:-300px;right:-300px;animation:meshFloat 18s ease-in-out infinite;transition:background .5s ease}
+.bg-mesh::after{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,var(--mesh-2) 0%,transparent 70%);bottom:-200px;left:-200px;animation:meshFloat 22s ease-in-out 5s infinite reverse;transition:background .5s ease}
+.bg-orb3{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,var(--mesh-3) 0%,transparent 70%);top:40%;left:20%;z-index:0;pointer-events:none;animation:meshFloat 26s ease-in-out 3s infinite;filter:blur(40px);transition:background .5s ease}
+@keyframes meshFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-60px) scale(1.08)}66%{transform:translate(-30px,30px) scale(0.94)}}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--navbar-bg);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);border-bottom:1px solid var(--border-1);transition:all .4s}
+.navbar.scrolled{background:var(--navbar-bg-s);box-shadow:0 1px 0 rgba(201,168,76,0.2),0 4px 32px rgba(0,0,0,0.4)}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-pulse{width:8px;height:8px;border-radius:50%;background:var(--g);position:relative}
+.nav-pulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--g);animation:pulseRing 2s ease-in-out infinite;opacity:0}
+@keyframes pulseRing{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.nav-title{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.nav-sub{font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-top:1px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-chip{font-size:10px;padding:4px 12px;border-radius:20px;background:var(--gb);color:var(--g3);border:1px solid var(--border2);letter-spacing:.5px;display:none}
+@media(min-width:480px){.nav-chip{display:inline-flex}}
+.nav-ig{font-size:11px;padding:6px 16px;border-radius:20px;font-weight:600;text-decoration:none;background:linear-gradient(135deg,rgba(201,168,76,0.22),rgba(201,168,76,0.08));color:var(--g3);border:1px solid var(--border2);backdrop-filter:blur(8px);transition:all .3s;letter-spacing:.3px;white-space:nowrap}
+.nav-ig:hover{background:linear-gradient(135deg,rgba(201,168,76,0.38),rgba(201,168,76,0.16));box-shadow:0 0 24px rgba(201,168,76,.25),0 0 0 1px rgba(201,168,76,.5);transform:translateY(-1px)}
+
+/* THEME TOGGLE */
+.theme-toggle{position:relative;width:52px;height:28px;border-radius:20px;border:1px solid var(--border-2);background:var(--glass-2);cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 7px;transition:background .4s,border-color .4s;flex-shrink:0}
+.theme-toggle .tt-icon{font-size:12px;line-height:1;position:relative;z-index:1;opacity:.85;pointer-events:none}
+.theme-toggle .tt-knob{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#F5E4A8,#C9A84C);box-shadow:0 2px 8px rgba(0,0,0,.35),0 0 10px rgba(201,168,76,.45);transition:transform .45s cubic-bezier(.34,1.3,.64,1),background .4s;z-index:0}
+:root[data-theme="light"] .theme-toggle .tt-knob{transform:translateX(-26px);background:linear-gradient(135deg,#FFE9A8,#FFC65C);box-shadow:0 2px 8px rgba(27,38,64,.25),0 0 10px rgba(255,198,92,.55)}
+:root[data-theme="light"] .theme-toggle{background:rgba(255,255,255,.65);border-color:rgba(27,38,64,.14)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;z-index:1;overflow:hidden}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(201,168,76,0.28);border-top:1px solid rgba(201,168,76,0.45);border-radius:100px;padding:10px 22px;font-size:12px;color:var(--g3);letter-spacing:1.5px;margin-bottom:44px;animation:fadeUp .8s ease both;box-shadow:0 4px 24px rgba(0,0,0,0.3),0 0 40px rgba(201,168,76,0.08),inset 0 1px 0 rgba(255,255,255,0.12);font-weight:600}
+.hero-title-wrap{margin-bottom:8px;animation:fadeUp .9s ease .1s both;display:flex;flex-direction:column;gap:12px}
+.hero-h1{font-size:clamp(42px,8.5vw,104px);font-weight:900;line-height:1.1;letter-spacing:-2px;color:var(--text);display:block}
+@media(max-width:480px){.hero-h1{font-size:clamp(36px,10vw,56px);letter-spacing:-1px;line-height:1.15}}
+.hero-h1.gold{background:var(--gold-text-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 40px rgba(201,168,76,.4));animation:shimmer 4s ease-in-out infinite}
+@keyframes shimmer{0%,100%{filter:drop-shadow(0 0 30px rgba(201,168,76,.3))}50%{filter:drop-shadow(0 0 60px rgba(201,168,76,.6)) drop-shadow(0 0 100px rgba(201,168,76,.2))}}
+.hero-en{font-size:clamp(10px,1.4vw,14px);font-weight:300;color:var(--text3);letter-spacing:8px;text-transform:uppercase;margin:24px 0 0;animation:fadeUp .9s ease .2s both}
+.hero-divider{width:1px;height:64px;background:linear-gradient(180deg,transparent,rgba(201,168,76,.6),transparent);margin:32px auto;animation:fadeIn 1s ease .4s both}
+.hero-desc{font-size:15px;color:var(--text2);line-height:2.2;max-width:460px;animation:fadeUp 1s ease .3s both;margin-bottom:52px;font-weight:400;letter-spacing:.2px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s ease .5s both}
+
+/* BUTTONS */
+.btn-primary{padding:14px 32px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Vazirmatn',sans-serif;border:none;background:linear-gradient(135deg,rgba(201,168,76,.28),rgba(201,168,76,.10));color:var(--g2);border:1px solid rgba(201,168,76,.45);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .35s cubic-bezier(.4,0,.2,1);letter-spacing:.3px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(201,168,76,.15),0 0 0 1px rgba(201,168,76,.1),inset 0 1px 0 rgba(255,255,255,.15)}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .3s}
+.btn-primary:hover::before{opacity:1}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 48px rgba(201,168,76,.3),0 0 0 1px rgba(201,168,76,.6),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn-secondary{padding:14px 32px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;background:var(--glass-2);color:var(--text2);border:1px solid var(--border-2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.10)}
+.btn-secondary:hover{background:var(--glass-3);border-color:rgba(201,168,76,.3);color:var(--text);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14)}
+
+.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;animation:fadeIn 2s ease 1.5s both;opacity:.4;transition:opacity .3s}
+.scroll-hint:hover{opacity:.9}
+.scroll-hint span{font-size:8px;color:var(--text3);letter-spacing:4px;text-transform:uppercase}
+.scroll-line{width:1px;height:48px;background:linear-gradient(180deg,var(--g),transparent);animation:scrollPulse 2.5s ease-in-out infinite}
+@keyframes scrollPulse{0%,100%{height:24px;opacity:.2}60%{height:52px;opacity:.9}}
+
+/* ── CLOCKS BAR — fixed horizontal layout ── */
+.clocks-bar{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  background:var(--glass-1);
+  backdrop-filter:blur(40px) saturate(200%);
+  -webkit-backdrop-filter:blur(40px) saturate(200%);
+  border-top:1px solid var(--border-2);
+  border-bottom:1px solid var(--border-1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 4px 24px rgba(0,0,0,0.2);
+  transition:background .4s ease,border-color .4s ease;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+}
+.clock-item{
+  text-align:center;
+  padding:18px 24px;
+  border-right:1px solid var(--border-1);
+  flex:1;
+  min-width:120px;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition:border-color .4s ease;
+}
+.clock-item:last-child{border-right:none}
+/* On mobile: always show Tehran + NY side by side, hide extras */
+@media(max-width:640px){
+  .clocks-bar{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .clock-item{min-width:50%;flex:0 0 50%;padding:14px 10px}
+  .clock-extra{display:none}
+}
+.clock-city{font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:5px}
+.clock-city svg{flex-shrink:0;border-radius:2px}
+.clock-time{font-family:'SF Mono',Courier,monospace;font-size:18px;font-weight:700;color:var(--g3);letter-spacing:2px;text-shadow:0 0 20px rgba(201,168,76,.4)}
+
+/* GOLD DIVIDER */
+.gold-div{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent);position:relative;z-index:1}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:80px 20px}
+.container{max-width:980px;margin:0 auto}
+.sec-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g3);margin-bottom:14px;font-weight:700}
+.sec-title{font-size:clamp(26px,4vw,40px);font-weight:900;line-height:1.2;color:var(--text);margin-bottom:10px}
+.sec-sub{font-size:13px;color:var(--text2);line-height:2;max-width:520px;font-weight:400}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── WEEK SCROLL — Horizontal, full-width on desktop ── */
+.week-scroll-wrap{position:relative;margin-bottom:14px}
+
+/* Soft fade edges */
+.week-scroll-wrap::before,.week-scroll-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none;
+}
+.week-scroll-wrap::before{left:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 100%)}
+.week-scroll-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg) 0%,transparent 100%)}
+
+.week-header{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:4px 12px 10px;
+  margin:0 -8px;
+}
+.week-header::-webkit-scrollbar{display:none}
+
+/* Desktop: equal width buttons that fill the row */
+@media(min-width:641px){
+  .week-header{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    overflow:visible;
+    scroll-snap-type:none;
+    padding:4px 0 10px;
+    margin:0;
+  }
+  .week-scroll-wrap::before,.week-scroll-wrap::after{display:none}
+}
+
+.week-day-btn{
+  background:var(--glass-1);
+  border:1px solid var(--border-2);
+  border-top:1px solid var(--glass-top);
+  border-radius:22px;
+  padding:18px 12px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  overflow:hidden;
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:0 4px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.08);
+  flex-shrink:0;
+  min-width:110px;
+  scroll-snap-align:start;
+}
+@media(min-width:641px){.week-day-btn{min-width:0;width:100%}}
+
+.week-day-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent 60%);opacity:0;transition:opacity .3s}
+.week-day-btn:hover::before{opacity:1}
+.week-day-btn:hover{border-color:rgba(201,168,76,.35);transform:translateY(-5px) scale(1.02);box-shadow:0 20px 56px rgba(0,0,0,.35),0 0 0 1px rgba(201,168,76,.2),inset 0 1px 0 rgba(255,255,255,.16)}
+.week-day-btn.active{border-color:rgba(201,168,76,.55);border-top-color:rgba(201,168,76,.75);background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.05));box-shadow:0 0 48px rgba(201,168,76,.18),0 0 0 1px rgba(201,168,76,.32),inset 0 1px 0 rgba(255,255,255,.16)}
+.week-day-btn.active .wd-name{color:var(--g3)}
+.wd-greg{font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-bottom:6px;text-transform:uppercase}
+.wd-name{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:5px;transition:color .3s}
+.wd-shamsi{font-size:10px;color:var(--text3);margin-bottom:12px;font-weight:500}
+.wd-dots{display:flex;gap:4px;justify-content:center;flex-wrap:wrap}
+.wd-dot{width:6px;height:6px;border-radius:50%}
+.wd-dot.h{background:var(--bear);box-shadow:0 0 6px rgba(224,82,82,.6)}
+.wd-dot.m{background:var(--warn);box-shadow:0 0 5px rgba(224,147,64,.5)}
+.wd-dot.l{background:var(--text3);opacity:.35}
+
+/* SHINE on active card */
+@keyframes cardShine{0%{transform:translateX(100%) skew(-15deg)}100%{transform:translateX(-200%) skew(-15deg)}}
+.week-day-btn.active::after{content:'';position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);animation:cardShine 3s ease-in-out 1s infinite;pointer-events:none}
+
+/* DAY PANEL */
+.day-panel{background:var(--glass-1);border:1px solid var(--border-2);border-top:1px solid var(--glass-top);border-radius:28px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.day-panel-header{padding:28px 28px 22px;background:linear-gradient(135deg,rgba(201,168,76,.07),var(--glass-0));border-bottom:1px solid var(--border-1)}
+.dph-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:16px}
+.dph-date{display:flex;flex-direction:column;gap:5px}
+.dph-day{font-size:22px;font-weight:900;color:var(--text)}
+.dph-dates{font-size:11px;color:var(--text3);display:flex;gap:14px}
+.dph-badge{font-size:10px;padding:6px 16px;border-radius:20px;font-weight:700;letter-spacing:.5px;backdrop-filter:blur(12px)}
+.dph-badge.bull{background:rgba(29,184,122,.12);color:#1DB87A;border:1px solid rgba(29,184,122,.25)}
+.dph-badge.bear{background:rgba(224,82,82,.12);color:#E05252;border:1px solid rgba(224,82,82,.25)}
+.dph-badge.neu{background:rgba(138,155,184,.1);color:var(--neu);border:1px solid rgba(138,155,184,.2)}
+.bias-pills{display:flex;gap:6px;flex-wrap:wrap}
+.bias-pill{font-size:10px;padding:4px 12px;border-radius:20px;font-weight:700;border:1px solid;backdrop-filter:blur(8px)}
+.bp-bull{background:rgba(29,184,122,.08);color:#1DB87A;border-color:rgba(29,184,122,.22)}
+.bp-bear{background:rgba(224,82,82,.08);color:#E05252;border-color:rgba(224,82,82,.22)}
+.bp-neu{background:rgba(138,155,184,.08);color:var(--neu);border-color:rgba(138,155,184,.2)}
+
+/* EVENT BADGES */
+.imp-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px}
+.imp-h{background:rgba(224,82,82,.12);color:#E05252;border:1px solid rgba(224,82,82,.2)}
+.imp-m{background:rgba(224,147,64,.12);color:var(--warn);border:1px solid rgba(224,147,64,.2)}
+.imp-l{background:rgba(138,155,184,.08);color:var(--neu);border:1px solid rgba(138,155,184,.15)}
+.cur-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px;letter-spacing:.5px}
+.cur-usd{background:rgba(29,184,122,.12);color:#1DB87A;border:1px solid rgba(29,184,122,.2)}
+.cur-jpy{background:rgba(91,159,224,.12);color:#5B9FE0;border:1px solid rgba(91,159,224,.2)}
+.cur-eur{background:rgba(155,143,224,.12);color:#9B8FE0;border:1px solid rgba(155,143,224,.2)}
+.cur-cad{background:rgba(255,100,80,.12);color:#FF7060;border:1px solid rgba(255,100,80,.2)}
+.cur-gbp{background:rgba(100,180,120,.12);color:#5DB87A;border:1px solid rgba(100,180,120,.2)}
+.cur-aud{background:rgba(60,180,220,.12);color:#3BB8DC;border:1px solid rgba(60,180,220,.2)}
+.xau-up{color:var(--bull);font-weight:700;font-size:11px;white-space:nowrap}
+.xau-dn{color:var(--bear);font-weight:700;font-size:11px;white-space:nowrap}
+.xau-ne{color:var(--neu);font-weight:600;font-size:11px;white-space:nowrap}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+/* EVENT TIMELINE */
+.tl-wrap{padding:22px 24px 8px;position:relative}
+.tl-item{display:flex;gap:14px;position:relative;animation:rowIn .45s ease both}
+.tl-track{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:14px;padding-top:24px}
+.tl-dot{width:13px;height:13px;border-radius:50%;background:var(--g);border:3px solid var(--bg);box-shadow:0 0 0 1px rgba(201,168,76,.4),0 0 16px rgba(201,168,76,.5);flex-shrink:0;transition:background .4s,box-shadow .4s,border-color .4s;position:relative;z-index:1}
+.tl-line{width:2px;flex:1;min-height:34px;background:linear-gradient(180deg,rgba(201,168,76,.35),rgba(201,168,76,.08));margin:2px 0 8px;transition:background .4s}
+.tl-item:last-child .tl-line{display:none}
+.tl-card{flex:1;min-width:0;margin-bottom:14px;background:var(--glass-1);border:1px solid var(--border-2);border-top:1px solid var(--glass-top);border-radius:18px;overflow:hidden;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);box-shadow:0 6px 24px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.10);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.tl-card-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;flex-wrap:wrap}
+.tl-time-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:62px;flex-shrink:0;padding:7px 10px;border-radius:12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);transition:all .4s}
+.tl-time{font-family:'SF Mono',Courier,monospace;font-size:13px;font-weight:700;color:var(--g3);text-shadow:0 0 12px rgba(201,168,76,.3);white-space:nowrap}
+.tl-status{font-size:9px;color:var(--text2);font-weight:600;text-align:center;line-height:1.4}
+.tl-main{flex:1;min-width:140px}
+.tl-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.tl-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.5}
+.tl-sub{font-size:11px;color:var(--text3)}
+.tl-xau{flex-shrink:0}
+.tl-chevron{width:24px;height:24px;border-radius:50%;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--g3);transition:transform .3s;flex-shrink:0}
+.tl-card.open .tl-chevron{transform:rotate(180deg)}
+.tl-card-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.tl-card.open .tl-card-body{max-height:220px;border-top:1px solid var(--border-1)}
+.tl-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 18px}
+.tl-detail-item{text-align:center;background:var(--glass-0);border-radius:12px;padding:10px 6px;border:1px solid var(--border-1)}
+.tl-detail-label{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.tl-detail-val{font-family:'SF Mono',Courier,monospace;font-size:13px;font-weight:700;color:var(--text2)}
+
+/* LIVE STATE */
+.tl-item.live .tl-dot{background:var(--bear);border-color:var(--bg);box-shadow:0 0 0 1px rgba(224,82,82,.5),0 0 22px rgba(224,82,82,.7);animation:livePulseDot 1.3s ease-in-out infinite}
+@keyframes livePulseDot{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+.tl-item.live .tl-line{background:linear-gradient(180deg,rgba(224,82,82,.4),rgba(201,168,76,.1))}
+.tl-item.live .tl-card{border-color:rgba(224,82,82,.4);box-shadow:0 0 32px rgba(224,82,82,.16),0 6px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.10);animation:liveCardGlow 2s ease-in-out infinite}
+@keyframes liveCardGlow{0%,100%{box-shadow:0 0 24px rgba(224,82,82,.12),0 6px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.10)}50%{box-shadow:0 0 40px rgba(224,82,82,.22),0 6px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.10)}}
+.tl-item.live .tl-time-block{background:rgba(224,82,82,.1);border-color:rgba(224,82,82,.32)}
+.tl-item.live .tl-time{color:#FF8A8A}
+.tl-item.live .tl-status{color:#FF6B6B;font-weight:700}
+
+/* ENDED STATE */
+.tl-item.ended .tl-dot{background:transparent;border-color:var(--border-2);box-shadow:none}
+.tl-item.ended .tl-line{background:var(--border-1)}
+.tl-item.ended .tl-card{opacity:.42;filter:saturate(.45)}
+.tl-item.ended .tl-card:hover{opacity:.6}
+.tl-item.ended .tl-time{color:var(--text3)}
+.tl-item.ended .tl-time-block{background:var(--glass-0);border-color:var(--border-1)}
+.tl-item.ended .tl-status{color:var(--text3)}
+.tl-item.ended .cur-badge,.tl-item.ended .imp-badge,.tl-item.ended .xau-up,.tl-item.ended .xau-dn,.tl-item.ended .xau-ne{filter:grayscale(1);opacity:.55}
+.tl-item.ended .tl-chevron{opacity:.45}
+
+@media(max-width:560px){
+  .tl-wrap{padding:18px 14px 4px}
+  .tl-card-head{gap:10px;padding:14px}
+  .tl-time-block{min-width:52px}
+  .tl-xau{order:5;width:100%;margin-top:2px}
+}
+
+/* SUMMARY */
+.summary-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px;background:var(--sum-bg);border-top:1px solid var(--border-1);transition:background .4s ease,border-color .4s ease}
+@media(max-width:580px){.summary-wrap{grid-template-columns:1fr}}
+.sum-card{background:var(--glass-0);border-radius:20px;padding:20px;border:1px solid var(--border-1);border-top:1px solid var(--glass-top-2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 4px 20px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);transition:background .4s ease,border-color .4s ease}
+.sum-card-title{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.sum-text{font-size:13px;color:var(--text2);line-height:2.1;font-weight:400}
+.sum-chain{display:flex;flex-direction:column}
+.sc-item{display:flex;align-items:flex-start;gap:12px}
+.sc-dot{width:8px;height:8px;border-radius:50%;background:var(--g);flex-shrink:0;margin-top:5px;box-shadow:0 0 10px rgba(201,168,76,.6)}
+.sc-line{width:1px;height:20px;background:linear-gradient(180deg,rgba(201,168,76,.5),transparent);margin:0 0 0 3.5px}
+.sc-text{padding-bottom:14px}
+.sc-step{font-size:9px;font-weight:700;color:var(--g3);letter-spacing:1.5px;text-transform:uppercase}
+.sc-val{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.8;font-weight:400}
+
+/* PROB BAR */
+.prob-row{display:flex;height:30px;border-radius:12px;overflow:hidden;margin-top:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 1px 0 rgba(0,0,0,.2)}
+.prob-bull{background:linear-gradient(90deg,#0A5C40,#1DB87A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.prob-neu{background:linear-gradient(90deg,#2A3D58,#5A7099);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s cubic-bezier(.4,0,.2,1) .1s}
+.prob-bear{background:linear-gradient(90deg,#6B1515,#E05252);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;transition:width 1.4s cubic-bezier(.4,0,.2,1) .2s}
+
+/* TELEGRAM */
+.tg-outer{padding:20px;border-top:1px solid var(--border-1);transition:border-color .4s ease}
+.tg-label{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.tg-card{background:rgba(10,22,40,0.7);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-radius:22px;padding:20px;border:1px solid rgba(255,255,255,.09);border-top:1px solid rgba(255,255,255,.14);position:relative;box-shadow:0 8px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.07)}
+.tg-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.tg-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#C9A84C,#8B6914);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 16px rgba(201,168,76,.3)}
+.tg-ch{font-size:12px;font-weight:700;color:#E0EAF5}
+.tg-vs{font-size:9px;color:#2A3F5A;margin-top:1px}
+.tg-body{font-size:12px;line-height:2.2;color:#8AAAC8;white-space:pre-wrap;direction:rtl;text-align:right;font-weight:400}
+.tg-ts{font-size:9px;color:#1E3050;text-align:left;margin-top:12px;direction:ltr}
+.tg-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.copy-btn,.share-btn{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.28);color:#E8C96A;font-size:11px;padding:7px 16px;border-radius:10px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;transition:all .25s;backdrop-filter:blur(8px)}
+.copy-btn:hover,.share-btn:hover{background:rgba(201,168,76,.24);box-shadow:0 0 16px rgba(201,168,76,.2)}
+.share-btn{background:rgba(91,159,224,.12);border-color:rgba(91,159,224,.28);color:#7FB4E8}
+.share-btn:hover{background:rgba(91,159,224,.22);box-shadow:0 0 16px rgba(91,159,224,.25)}
+
+/* ANALYSIS GRID */
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.an-card{background:var(--glass-1);border:1px solid var(--border-2);border-top:1px solid var(--glass-top);border-radius:22px;padding:24px;transition:all .4s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.10)}
+.an-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.07),transparent 60%);opacity:0;transition:opacity .3s}
+.an-card:hover::before{opacity:1}
+.an-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-6px) scale(1.01);box-shadow:0 24px 64px rgba(0,0,0,.38),0 0 40px rgba(201,168,76,.08),inset 0 1px 0 rgba(255,255,255,.14)}
+.an-icon{width:44px;height:44px;border-radius:15px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.an-title{font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.an-desc{font-size:12px;color:var(--text2);line-height:2;font-weight:400}
+
+/* MOBILE SWIPE CARD */
+.narrative-swipe{display:none;padding:0 16px 20px;border-top:1px solid var(--border-1)}
+@media(max-width:640px){.narrative-swipe{display:block}.narrative-desktop{display:none}}
+.swipe-handle{width:40px;height:4px;border-radius:4px;background:var(--border-2);margin:12px auto 16px;cursor:pointer}
+.swipe-card{background:var(--glass-1);border:1px solid var(--border-2);border-top:1px solid var(--glass-top);border-radius:20px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow:hidden;
+  /* FIXED: soft shadow, not sharp */
+  box-shadow:0 8px 40px rgba(0,0,0,.22),0 2px 12px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.10);
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+  margin-bottom:10px;
+}
+.swipe-card-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:rgba(201,168,76,.04);border-bottom:1px solid transparent;transition:border-color .3s}
+.swipe-card.open .swipe-card-header{border-bottom-color:var(--border-1)}
+.swipe-card-title{font-size:11px;font-weight:700;color:var(--g3);letter-spacing:1px}
+.swipe-chevron{width:20px;height:20px;border-radius:50%;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--g3);transition:transform .3s}
+.swipe-card.open .swipe-chevron{transform:rotate(180deg)}
+.swipe-card-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 18px}
+.swipe-card.open .swipe-card-body{max-height:1300px;padding:16px 18px}
+.swipe-chain{display:flex;flex-direction:column;gap:0}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border-1);text-align:center;padding:52px 20px;position:relative;z-index:1;background:var(--glass-0);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:background .4s ease,border-color .4s ease}
+footer a{color:var(--g3);text-decoration:none;font-weight:600;transition:color .25s}
+footer a:hover{color:var(--g2)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+</style>
+</head>
+<body class="loading">
+<div id="loader">
+  <div class="loader-rings">
+    <div class="loader-ring r1"></div>
+    <div class="loader-ring r2"></div>
+    <div class="loader-coin"><span>XAU</span></div>
+  </div>
+  <div class="loader-chart">
+    <div class="loader-bar-c"></div><div class="loader-bar-c"></div><div class="loader-bar-c"></div><div class="loader-bar-c"></div><div class="loader-bar-c"></div>
+  </div>
+  <div class="loader-label">تقویم اقتصادی طلا · XAU/USD</div>
+  <div class="loader-progress"><div class="loader-progress-fill"></div></div>
+  <div class="loader-credit">Designed by <b>MEHDI FARAHMAND</b></div>
+</div>
+
+<canvas id="particles"></canvas>
+<div class="bg-mesh"></div>
+<div class="bg-orb3"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <div class="nav-pulse"></div>
+    <div>
+      <div class="nav-title">تحلیل اخبار اقتصادی</div>
+      <div class="nav-sub">Economic News Analysis</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="nav-chip">XAU/USD</span>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="تغییر تم روشن و تاریک" aria-pressed="false">
+      <span class="tt-icon">🌙</span><span class="tt-icon">☀️</span>
+      <span class="tt-knob"></span>
+    </button>
+    <a href="https://www.instagram.com/Farahmand.design" target="_blank" class="nav-ig">Mehdi Farahmand ↗</a>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-badge">
+    <div class="nav-pulse" style="width:6px;height:6px"></div>
+    تحلیل بنیادی زنده &nbsp;·&nbsp; هفتگی
+  </div>
+  <div class="hero-title-wrap">
+    <span class="hero-h1">تقویم اقتصادی</span>
+    <span class="hero-h1 gold">طلا XAU/USD</span>
+  </div>
+  <div class="hero-en">Weekly Gold Fundamental Analysis</div>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">هر هفته تحلیل جامع رویدادهای اقتصادی با تأثیر بر طلا<br>به وقت تهران · تقویم شمسی و میلادی</p>
+  <div class="hero-cta">
+    <button class="btn-primary" onclick="document.getElementById('calendar').scrollIntoView({behavior:'smooth'})">مشاهده تقویم هفتگی ↓</button>
+    <button class="btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">روش تحلیل</button>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('calendar').scrollIntoView({behavior:'smooth'})">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CLOCKS: Tehran + NY always visible side-by-side; London + Tokyo only on wider screens -->
+<div class="clocks-bar">
+  <div class="clock-item" id="clock-tehran">
+    <div class="clock-city">
+      <svg width="33" height="22" viewBox="0 0 330 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="330" height="220" fill="#239F40"/>
+        <rect y="73" width="330" height="74" fill="#FFFFFF"/>
+        <rect y="147" width="330" height="73" fill="#DA0000"/>
+        <circle cx="165" cy="110" r="22" fill="#F0A500"/>
+        <g stroke="#F0A500" stroke-width="3.5" stroke-linecap="round">
+          <line x1="165" y1="80" x2="165" y2="72"/><line x1="165" y1="140" x2="165" y2="148"/>
+          <line x1="135" y1="110" x2="127" y2="110"/><line x1="195" y1="110" x2="203" y2="110"/>
+          <line x1="144" y1="89" x2="138" y2="83"/><line x1="186" y1="131" x2="192" y2="137"/>
+          <line x1="186" y1="89" x2="192" y2="83"/><line x1="144" y1="131" x2="138" y2="137"/>
+          <line x1="155" y1="82" x2="152" y2="74"/><line x1="175" y1="138" x2="178" y2="146"/>
+          <line x1="175" y1="82" x2="178" y2="74"/><line x1="155" y1="138" x2="152" y2="146"/>
+          <line x1="135" y1="100" x2="127" y2="97"/><line x1="195" y1="120" x2="203" y2="123"/>
+          <line x1="195" y1="100" x2="203" y2="97"/><line x1="135" y1="120" x2="127" y2="123"/>
+        </g>
+        <g fill="#C8820A">
+          <ellipse cx="158" cy="116" rx="28" ry="16" fill="#D4920C"/>
+          <circle cx="184" cy="103" r="14" fill="#D4920C"/>
+          <circle cx="184" cy="103" r="18" fill="none" stroke="#A06008" stroke-width="6" opacity="0.7"/>
+          <rect x="176" y="126" width="7" height="16" rx="3" fill="#C8820A"/>
+          <rect x="186" y="128" width="7" height="14" rx="3" fill="#C8820A"/>
+          <rect x="140" y="124" width="7" height="16" rx="3" fill="#C8820A"/>
+          <rect x="150" y="126" width="7" height="14" rx="3" fill="#C8820A"/>
+          <path d="M130,118 C120,108 118,96 126,90 C128,94 124,103 132,110" fill="#C8820A"/>
+          <polygon points="178,90 181,83 184,90 187,83 190,90" fill="#F0C030"/>
+          <rect x="190" y="100" width="28" height="3" rx="1.5" fill="#E8E0C0" transform="rotate(-15,190,100)"/>
+          <rect x="188" y="98" width="5" height="5" rx="1" fill="#F0C030"/>
+          <circle cx="188" cy="100" r="2" fill="#2A1A00"/>
+          <circle cx="192" cy="106" r="1.5" fill="#8B5A00"/>
+        </g>
+      </svg>
+      تهران
+    </div>
+    <div class="clock-time" id="ct">--:--:--</div>
+  </div>
+  <div class="clock-item" id="clock-ny">
+    <div class="clock-city">
+      <svg width="33" height="22" viewBox="0 0 330 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="330" height="220" fill="#FFFFFF"/>
+        <rect width="330" height="44" y="0" fill="#B22234"/>
+        <rect width="330" height="44" y="88" fill="#B22234"/>
+        <rect width="330" height="44" y="176" fill="#B22234"/>
+        <rect width="140" height="132" fill="#3C3B6E"/>
+      </svg>
+      New York
+    </div>
+    <div class="clock-time" id="cny">--:--:--</div>
+  </div>
+  <div class="clock-item clock-extra" id="clock-london">
+    <div class="clock-city">
+      <svg width="33" height="22" viewBox="0 0 330 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="330" height="220" fill="#00247D"/>
+        <g stroke="#FFFFFF" stroke-width="44"><line x1="0" y1="0" x2="330" y2="220"/><line x1="330" y1="0" x2="0" y2="220"/></g>
+        <g stroke="#CF142B" stroke-width="16"><line x1="0" y1="0" x2="330" y2="220"/><line x1="330" y1="0" x2="0" y2="220"/></g>
+        <rect y="85" width="330" height="50" fill="#FFFFFF"/>
+        <rect x="140" width="50" height="220" fill="#FFFFFF"/>
+        <rect y="98" width="330" height="24" fill="#CF142B"/>
+        <rect x="153" width="24" height="220" fill="#CF142B"/>
+      </svg>
+      لندن
+    </div>
+    <div class="clock-time" id="clo">--:--:--</div>
+  </div>
+  <div class="clock-item clock-extra" id="clock-tokyo">
+    <div class="clock-city">
+      <svg width="33" height="22" viewBox="0 0 330 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="330" height="220" fill="#FFFFFF"/>
+        <circle cx="165" cy="110" r="66" fill="#BC002D"/>
+      </svg>
+      توکیو
+    </div>
+    <div class="clock-time" id="ctk">--:--:--</div>
+  </div>
+</div>
+<div class="gold-div"></div>
+
+<section id="calendar" style="padding:70px 20px">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-label">📅 تقویم هفتگی</div>
+      <div class="sec-title">اخبار اقتصادی هفته آینده</div>
+      <p class="sec-sub" style="margin-bottom:32px">۱–۵ تیر ۱۴۰۵ &nbsp;|&nbsp; June 22–26, 2026 · روی هر روز کلیک کنید</p>
+    </div>
+    <div class="week-scroll-wrap reveal">
+      <div class="week-header" id="week-btns"></div>
+    </div>
+    <div class="day-panel reveal" id="day-panel"></div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<section id="about" style="padding:70px 20px">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:40px">
+      <div class="sec-label">🔬 چارچوب تحلیل</div>
+      <div class="sec-title">مسیر تأثیر خبر بر طلا</div>
+      <p class="sec-sub">هر رویداد اقتصادی از این مسیر بر قیمت XAU/USD تأثیر می‌گذارد</p>
+    </div>
+    <div class="analysis-grid reveal">
+      <div class="an-card"><div class="an-icon">📰</div><div class="an-title">رویداد خبری</div><div class="an-desc">CPI · NFP · GDP · FOMC · نرخ بهره بانک‌های مرکزی · داده‌های اشتغال</div></div>
+      <div class="an-card"><div class="an-icon">🏦</div><div class="an-title">انتظارات فدرال رزرو</div><div class="an-desc">تغییر احتمال کاهش یا افزایش نرخ بهره و مسیر سیاست پولی</div></div>
+      <div class="an-card"><div class="an-icon">📈</div><div class="an-title">بازده اوراق و DXY</div><div class="an-desc">US10Y · بازده واقعی · شاخص دلار — رابطه معکوس با طلا</div></div>
+      <div class="an-card"><div class="an-icon">🥇</div><div class="an-title">XAU/USD طلا</div><div class="an-desc">تأثیر نهایی — سناریوی صعودی، نزولی یا خنثی با احتمال‌های درصدی</div></div>
+    </div>
+  </div>
+</section>
+<div class="gold-div"></div>
+
+<footer>
+  <div style="font-size:24px;font-weight:900;background:var(--gold-text-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px">تحلیل اخبار اقتصادی</div>
+  <div style="font-size:11px;color:var(--text3);letter-spacing:4px;text-transform:uppercase;margin-bottom:6px">Economic News Analysis</div>
+  <p style="font-size:12px;color:var(--text3);margin-bottom:18px">تحلیل‌گر بازارهای مالی · متخصص XAU/USD</p>
+  <a href="https://www.instagram.com/Farahmand.design" target="_blank">📸 Mehdi Farahmand</a>
+  <p style="font-size:10px;color:var(--text3);margin-top:24px;letter-spacing:1px">تمامی حقوق محفوظ است © ۱۴۰۵</p>
+</footer>
+
+<script>
+/* LOADER */
+setTimeout(()=>{
+  const ld=document.getElementById('loader');
+  if(ld){ld.classList.add('hide');document.body.classList.remove('loading');setTimeout(()=>ld.remove(),700)}
+},2300);
+
+/* PARTICLES */
+(function(){
+  const c=document.getElementById('particles'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+  resize();window.addEventListener('resize',resize);
+  const gold='rgba(201,168,76,';
+  for(let i=0;i<70;i++)pts.push({x:Math.random()*2000,y:Math.random()*1200,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.3,a:Math.random(),isGold:Math.random()>.5,pulse:Math.random()*Math.PI*2});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const t=Date.now()*.001;
+    const light=document.documentElement.getAttribute('data-theme')==='light';
+    const secondary=light?'rgba(60,48,22,':'rgba(255,255,255,';
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      const alpha=(.3+.4*Math.sin(t+p.pulse))*p.a;
+      const col=p.isGold?gold:secondary;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=col+alpha+')';ctx.fill();
+      if(p.isGold&&alpha>.3){ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);ctx.fillStyle=gold+(alpha*.15)+')';ctx.fill()}
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=gold+((1-d/120)*.06)+')';ctx.lineWidth=.5;ctx.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* THEME */
+function toggleTheme(){
+  const html=document.documentElement,isLight=html.getAttribute('data-theme')==='light';
+  if(isLight)html.removeAttribute('data-theme');else html.setAttribute('data-theme','light');
+  const btn=document.getElementById('themeToggle');if(btn)btn.setAttribute('aria-pressed',String(!isLight));
+}
+
+/* CLOCKS */
+function getTime(tz){
+  const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value;
+  let h=g('hour');if(h==='24')h='00';
+  return`${h}:${g('minute')}:${g('second')}`;
+}
+function tick(){
+  document.getElementById('ct').textContent=getTime('Asia/Tehran');
+  document.getElementById('cny').textContent=getTime('America/New_York');
+  document.getElementById('clo').textContent=getTime('Europe/London');
+  document.getElementById('ctk').textContent=getTime('Asia/Tokyo');
+}
+setInterval(tick,1000);tick();
+window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>40));
+
+/* HELPERS */
+function faToEn(str){const m={'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};return String(str).replace(/[۰-۹]/g,d=>m[d])}
+function toFa(n){const m={'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};return String(n).replace(/[0-9]/g,d=>m[d])}
+function formatRemaining(ms){
+  const s=Math.max(0,Math.floor(ms/1000)),d=Math.floor(s/86400),h=Math.floor((s%86400)/3600),m=Math.floor((s%3600)/60),sec=s%60;
+  if(d>0)return`${toFa(d)} روز و ${toFa(h)} ساعت دیگر`;
+  if(h>0)return`${toFa(h)} ساعت و ${toFa(m)} دقیقه دیگر`;
+  if(m>0)return`${toFa(m)} دقیقه و ${toFa(sec)} ثانیه دیگر`;
+  return`${toFa(sec)} ثانیه دیگر`;
+}
+
+/*
+  ── ساعت‌های تهران (UTC+3:30) ──
+  دوشنبه: CPI کانادا = 16:30 ET = 21:30 UTC+1 = 20:00 UTC = 23:30 تهران → ۲۳:۳۰ ✓
+    ولی تصویر کاربر نشان می‌دهد ۴:۳۰pm ET = 16:30 ET
+    16:30 ET (EDT = UTC-4) → UTC 20:30 → تهران UTC+3:30 → 00:00 روز بعد
+    پس ساعت تهران = ۰۰:۰۰ شب (نیمه شب)
+    ولی در تصویر فارسی نوشته ۲۰:۰۰ — این احتمالاً بر اساس ET ۱۶:۳۰ UTC-4 = ۲۰:۳۰ UTC = ۰۰:۰۰ تهران است
+    اما با توجه به تصویر Farsi که ۲۰:۰۰ نوشته و کاربر تأیید کرده ساعت‌ها درسته:
+    ما ساعت‌های فارسی تقویم رو نگه می‌داریم که کاربر تأیید کرده.
+
+  سه‌شنبه Flash PMI آمریکا:
+    تصویر انگلیسی: 5:45pm UTC (این غلطه، باید 9:45am ET باشه)
+    تصویر فارسی: ۱۷:۱۵ (این درسته = 9:45 ET = 13:45 UTC = 17:15 تهران ✓)
+
+  چهارشنبه New Home Sales:
+    تصویر فارسی: ۱۷:۳۰ = New Home Sales
+    اما کد اصلی داشت ۲۱:۳۰
+    تصویر انگلیسی نشون نمی‌ده اما عکس فارسی ۱۷:۳۰ نشون می‌ده
+    New Home Sales معمولاً 10:00am ET = 14:00 UTC = 17:30 تهران ✓
+    پس ۱۷:۳۰ درسته
+
+  پنج‌شنبه Core PCE:
+    تصویر انگلیسی: 4:30pm → این ET نیست، باید 8:30am ET باشه
+    تصویر فارسی: ۱۶:۰۰ = 8:30am ET = 12:30 UTC = 16:00 تهران ✓
+
+  جمعه UoM:
+    تصویر انگلیسی: 6:00pm
+    تصویر فارسی: ۱۷:۳۰
+    UoM معمولاً 10:00am ET = 14:00 UTC = 17:30 تهران ✓
+    Tokyo CPI:
+    تصویر انگلیسی: 3:30am ET
+    تصویر فارسی: ۰۳:۰۰ (07:00 ← این تو کد اصلی بود ولی تصویر فارسی ۰۳:۰۰ نشون می‌ده)
+    Tokyo CPI = 8:30 JST = 00:00 UTC = 03:30 تهران → ۰۳:۳۰ تهران
+    تصویر فارسی ۰۳:۰۰ نشون می‌ده ولی دقیق‌ترش ۰۳:۳۰ است
+    ما از ۰۳:۳۰ استفاده می‌کنیم چون دقیق‌تره
+*/
+
+/* ── DATA: هفته ۱–۵ تیر ۱۴۰۵ | Jun 22–26, 2026 ── */
+const DAYS=[
+  // ── دوشنبه ۱ تیر | Mon Jun 22 ──
+  {id:0,dateISO:'2026-06-22',name:'دوشنبه',shamsi:'۱ تیر',greg:'Jun 22',bias:'neu',biasLabel:'خنثی — CAD CPI + لاگارد',
+    prob:{bull:30,neu:45,bear:25},
+    narrative:'دوشنبه روز آرامی برای XAU/USD است. CPI کانادا اثر مستقیم محدودی بر طلا دارد اما Core Median و Trimmed را دنبال کنید. مهم‌ترین رویداد روز سخنرانی لاگارد ساعت ۱۶:۳۰ است — هر سیگنال درباره توقف کات ECB می‌تواند یورو را تقویت و دلار را تضعیف کند که برای طلا مثبت است.',
+    chain:[
+      {step:'رویداد',val:'CPI کانادا (Core Median + Trimmed) + سخنرانی لاگارد ECB'},
+      {step:'تأثیر اقتصادی',val:'Core بالای ۲.۵٪ = BoC pause · لاگارد = جهت یورو'},
+      {step:'انتظارات بانک مرکزی',val:'BoC hawkish → CAD↑ · ECB pause → EUR↑'},
+      {step:'DXY / Yields',val:'اثر بر طلا غیرمستقیم از مسیر دلار است'},
+      {step:'XAU/USD',val:'واکنش EUR/USD جهت کوتاه‌مدت طلا را تعیین می‌کند'}
+    ],
+    telegram:`📊🔥 مهم‌ترین اخبار اقتصادی دوشنبه ۱ تیر ۱۴۰۵ | ۲۲ ژوئن ۲۰۲۶
+به وقت ایران 🇮🇷
+
+🔴 ۱۶:۰۰ — شاخص قیمت مصرف‌کننده کانادا م/م
+قبلی: ۰.۴٪
+📈 بالاتر = تورم چسبنده → BoC pause → CAD↑ → دلار↓ → طلا↑
+📉 پایین‌تر = تورم سرد → کات BoC در راه → CAD↓ → دلار↑ → طلا↓
+💡 اثر بر طلا غیرمستقیم از مسیر دلار است
+
+🔴 ۱۶:۰۰ — میانه CPI کانادا س/س
+قبلی: ۲.۲٪
+📈 بالاتر از ۲.۵٪ = Core چسبنده → BoC نمی‌تواند کات کند → CAD↑
+📉 زیر ۲٪ = Core سرد → کات قطعی → CAD↓
+⚡ این عدد برای BoC از Headline مهم‌تر است
+
+🔴 ۱۶:۰۰ — میانگین کوتاه‌شده CPI کانادا س/س
+قبلی: ۲.۱٪
+📈 بالاتر = فشار قیمتی گسترده → BoC hawkish → CAD↑
+📉 پایین‌تر = فشار محدود → BoC dovish → CAD↓
+💡 با Median CPI تصویر واقعی Core تورم کانادا ساخته می‌شود
+
+🟡 ۱۶:۰۰ — CPI مشترک کانادا س/س
+قبلی: ~۲.۰٪
+📊 سومین معیار Core BoC — تأیید یا رد دو شاخص بالا
+⚡ هر سه Core بالای ۲.۵٪ = سیگنال قوی pause BoC
+
+🟡 ۱۶:۳۰ — سخنرانی رئیس بانک مرکزی اروپا (لاگارد)
+موضوع: کمیته اقتصادی و پولی پارلمان اروپا · نرخ فعلی ECB: ۲.۱۵٪
+📈 اشاره به توقف کات = یورو↑ → دلار↓ → طلا↑
+📉 تأکید بر ادامه کات = یورو↓ → دلار↑ → طلا↓
+⚡ جلسه پارلمان = سوال آزاد → احتمال سیگنال غیرمنتظره بالاست
+
+🟡 ۱۸:۵۵ — سخنرانی دوم رئیس بانک مرکزی اروپا (لاگارد)
+📊 معمولاً تکرار پیام اول
+⚡ لحن متفاوت با ساعت ۱۶:۳۰ = واکنش فوری بازار
+💡 دو سخنرانی در یک روز = احتمال پیام‌رسانی عمدی ECB
+
+━━━━━━━━━━━━━━
+📌 جمع‌بندی: دوشنبه روز آرامی برای XAU/USD است
+⚠️ مراقب ساعت ۱۶:۳۰ باشید — واکنش EUR/USD جهت کوتاه‌مدت طلا را تعیین می‌کند
+📊 احتمالات: 🟢۳۰٪ | ⚪۴۵٪ | 🔴۲۵٪
+#طلا #XAU #تحلیل_بنیادی`,
+    events:[
+      {name:'CPI ماه‌به‌ماه کانادا',sub:'Canada CPI m/m',cur:'CAD',time:'۱۶:۰۰',prev:'0.4%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'میانه CPI سال‌به‌سال کانادا',sub:'Median CPI y/y',cur:'CAD',time:'۱۶:۰۰',prev:'2.2%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'CPI کوتاه‌شده سال‌به‌سال کانادا',sub:'Trimmed Mean CPI y/y',cur:'CAD',time:'۱۶:۰۰',prev:'2.1%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'CPI مشترک سال‌به‌سال کانادا',sub:'Common CPI y/y',cur:'CAD',time:'۱۶:۰۰',prev:'~2.0%',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'سخنرانی لاگارد — رئیس ECB (اول)',sub:'ECB President Lagarde Speaks — EP Committee',cur:'EUR',time:'۱۶:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'bull'},
+      {name:'سخنرانی لاگارد — رئیس ECB (دوم)',sub:'ECB President Lagarde Speaks — 2nd',cur:'EUR',time:'۱۸:۵۵',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
+    ]
+  },
+
+  // ── سه‌شنبه ۲ تیر | Tue Jun 23 ──
+  {id:1,dateISO:'2026-06-23',name:'سه‌شنبه',shamsi:'۲ تیر',greg:'Jun 23',bias:'bear',biasLabel:'⚠️ پرریسک — Flash PMI آمریکا',
+    prob:{bull:25,neu:30,bear:45},
+    narrative:'مهم‌ترین رویداد روز شاخص‌های فلش PMI آمریکا در ساعت ۱۷:۱۵ تهران است. PMI خدمات بالاتر از ۵۰.۹ نشانه رشد اقتصادی قوی → فشار بر طلا. داده‌های اروپا و انگلیس نیز در ابتدای روز منتشر می‌شوند.',
+    chain:[
+      {step:'رویداد',val:'Flash PMI آمریکا، اروپا و انگلیس'},
+      {step:'تأثیر اقتصادی',val:'سنجش سلامت بخش خدمات و تولید'},
+      {step:'انتظارات فد',val:'PMI قوی → اقتصاد پایدار → Fed هاوکیش'},
+      {step:'DXY / Yields',val:'PMI آمریکا بالا → DXY↑ + Yields↑'},
+      {step:'XAU/USD',val:'PMI قوی آمریکا → فشار نزولی بر طلا'}
+    ],
+    telegram:`📊🔥 مهم‌ترین اخبار اقتصادی سه‌شنبه ۲ تیر | Jun 23
+به وقت تهران (IRST) | UTC/ET
+
+🟡 ۱۴:۴۵ تهران | 11:15 UTC | 07:15 ET — Flash Manufacturing PMI فرانسه (EUR)
+📊 قبلی: 49.7
+
+🟡 ۱۴:۴۵ تهران — Flash Services PMI فرانسه (EUR) | قبلی: 42.9
+
+🟡 ۱۵:۰۰ تهران | 11:30 UTC — Flash Manufacturing PMI آلمان (EUR) | قبلی: 50.1
+🟡 ۱۵:۰۰ تهران — Flash Services PMI آلمان (EUR) | قبلی: 47.8
+
+🟡 ۱۶:۰۰ تهران | 12:30 UTC — Flash Manufacturing PMI انگلیس (GBP) | قبلی: 53.9
+🟡 ۱۶:۰۰ تهران — Flash Services PMI انگلیس (GBP) | قبلی: 47.9
+
+🟡 ۱۷:۳۰ تهران — سخنرانی مکلم — رئیس BOC (CAD)
+
+🔴 ۱۷:۱۵ تهران | 13:45 UTC | 09:45 ET — Flash Manufacturing PMI آمریکا (USD)
+📊 قبلی: 55.1
+📈 صعودی: PMI ضعیف‌تر → انتظار کاهش Fed → XAU↑
+📉 نزولی: PMI بالاتر → Fed هاوکیش → DXY↑ → XAU↓
+
+🔴 ۱۷:۱۵ تهران — Flash Services PMI آمریکا (USD) | قبلی: 50.9
+🟡 ۱۷:۳۰ تهران — Richmond Manufacturing Index (USD) | قبلی: -
+
+━━━━━━━━━━━━━━
+📌 جمع‌بندی: Flash PMI آمریکا محرک اصلی روز
+📊 احتمالات: 🟢۲۵٪ | ⚪۳۰٪ | 🔴۴۵٪
+⚠️ PMI بالاتر از ۵۵ → فشار شدید بر طلا
+#طلا #XAU #PMI #تحلیل_بنیادی`,
+    events:[
+      {name:'فلش PMI تولیدی فرانسه',sub:'French Flash Manufacturing PMI',cur:'EUR',time:'۱۴:۴۵',prev:'49.7',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI خدمات فرانسه',sub:'French Flash Services PMI',cur:'EUR',time:'۱۴:۴۵',prev:'42.9',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI تولیدی آلمان',sub:'German Flash Manufacturing PMI',cur:'EUR',time:'۱۵:۰۰',prev:'50.1',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI خدمات آلمان',sub:'German Flash Services PMI',cur:'EUR',time:'۱۵:۰۰',prev:'47.8',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI تولیدی انگلیس',sub:'Flash Manufacturing PMI (GBP)',cur:'GBP',time:'۱۶:۰۰',prev:'53.9',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI خدمات انگلیس',sub:'Flash Services PMI (GBP)',cur:'GBP',time:'۱۶:۰۰',prev:'47.9',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'سخنرانی مکلم — رئیس BOC',sub:'BOC Gov Macklem Speaks',cur:'CAD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'فلش PMI تولیدی آمریکا 🔴',sub:'Flash Manufacturing PMI (USD)',cur:'USD',time:'۱۷:۱۵',prev:'55.1',fore:'-',act:'-',imp:'h',xau:'bear'},
+      {name:'فلش PMI خدمات آمریکا 🔴',sub:'Flash Services PMI (USD)',cur:'USD',time:'۱۷:۱۵',prev:'50.9',fore:'-',act:'-',imp:'h',xau:'bear'},
+      {name:'شاخص تولیدات صنعتی ریچموند',sub:'Richmond Manufacturing Index',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
+    ]
+  },
+
+  // ── چهارشنبه ۳ تیر | Wed Jun 24 ──
+  {id:2,dateISO:'2026-06-24',name:'چهارشنبه',shamsi:'۳ تیر',greg:'Jun 24',bias:'neu',biasLabel:'نسبتاً آرام — AUD CPI',
+    prob:{bull:35,neu:40,bear:25},
+    narrative:'چهارشنبه روز نسبتاً آرامی است. CPI استرالیا در اوایل روز (به وقت تهران ۰۹:۰۰) منتشر می‌شود که می‌تواند جریان ریسک آسیا را تغییر دهد. فروش خانه‌های نوساز آمریکا در بعدازظهر تأثیر محدودی بر طلا دارد.',
+    chain:[
+      {step:'رویداد',val:'CPI استرالیا + فروش خانه‌های نوساز آمریکا'},
+      {step:'تأثیر اقتصادی',val:'تورم اقتصاد آسیا–اقیانوسیه'},
+      {step:'انتظارات RBA',val:'CPI بالا → RBA هاوکیش → AUD قوی'},
+      {step:'DXY / Yields',val:'تأثیر محدود — بازار آمریکا آرام'},
+      {step:'XAU/USD',val:'روز معتدل — نوسان محدود'}
+    ],
+    telegram:`📊🔥 مهم‌ترین اخبار اقتصادی چهارشنبه ۳ تیر | Jun 24
+به وقت تهران (IRST) | UTC/ET
+
+🔴 ۰۹:۰۰ تهران | 05:30 UTC — CPI ماه‌به‌ماه استرالیا (AUD)
+📊 قبلی: 0.4%
+📈 صعودی: CPI بالا → RBA هاوکیش → AUD↑ → ریسک‌پذیری → XAU خنثی تا نزولی
+📉 نزولی: CPI پایین → AUD سست → XAU↑ احتمالی
+
+🔴 ۰۹:۰۰ تهران — CPI سال‌به‌سال استرالیا (AUD) | قبلی: 4.2%
+🔴 ۰۹:۰۰ تهران — Trimmed Mean CPI m/m استرالیا | قبلی: 0.3%
+
+🟡 ۱۷:۳۰ تهران | 14:00 UTC | 10:00 ET — فروش خانه‌های نوساز آمریکا (USD)
+
+━━━━━━━━━━━━━━
+📌 جمع‌بندی: CPI استرالیا رویداد اصلی — تأثیر غیرمستقیم بر XAU
+📊 احتمالات: 🟢۳۵٪ | ⚪۴۰٪ | 🔴۲۵٪
+#طلا #XAU #تحلیل_بنیادی`,
+    events:[
+      {name:'CPI ماه‌به‌ماه استرالیا',sub:'Australia CPI m/m',cur:'AUD',time:'۰۹:۰۰',prev:'0.4%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'CPI سال‌به‌سال استرالیا',sub:'Australia CPI y/y',cur:'AUD',time:'۰۹:۰۰',prev:'4.2%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'Trimmed Mean CPI ماه‌به‌ماه',sub:'Trimmed Mean CPI m/m',cur:'AUD',time:'۰۹:۰۰',prev:'0.3%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'فروش خانه‌های نوساز آمریکا',sub:'New Home Sales',cur:'USD',time:'۱۷:۳۰',prev:'-',fore:'-',act:'-',imp:'m',xau:'neu'},
+    ]
+  },
+
+  // ── پنج‌شنبه ۴ تیر | Thu Jun 25 ──
+  {id:3,dateISO:'2026-06-25',name:'پنج‌شنبه',shamsi:'۴ تیر',greg:'Jun 25',bias:'bear',biasLabel:'⚠️ بسیار پرریسک — Core PCE + GDP',
+    prob:{bull:20,neu:25,bear:55},
+    narrative:'مهم‌ترین روز هفته برای طلا. Core PCE معیار ترجیحی تورم فدرال رزرو در ساعت ۱۶:۰۰ تهران منتشر می‌شود. GDP نهایی آمریکا نیز همزمان اعلام می‌شود. اگر Core PCE بالاتر از ۰.۲٪ باشد → فشار شدید بر طلا.',
+    chain:[
+      {step:'رویداد',val:'Core PCE + Final GDP آمریکا + Jobless Claims'},
+      {step:'تأثیر اقتصادی',val:'PCE = معیار ترجیحی تورم Fed · GDP = رشد اقتصادی'},
+      {step:'انتظارات فد',val:'PCE بالا → کاهش احتمال cut → هاوکیش'},
+      {step:'DXY + US10Y',val:'PCE داغ → DXY↑ + Yields↑ → فشار شدید'},
+      {step:'XAU/USD',val:'بحرانی‌ترین داده هفته — نوسان شدید محتمل'}
+    ],
+    telegram:`📊🔥 مهم‌ترین اخبار پنج‌شنبه ۴ تیر | Jun 25
+به وقت تهران (IRST) | UTC/ET
+
+⚠️ مهم‌ترین روز هفته برای XAU/USD
+
+🔴 ۰۹:۰۰ تهران | 05:30 UTC — تغییر اشتغال استرالیا (AUD)
+📊 قبلی: -18.6K
+
+🔴 ۰۹:۰۰ تهران — نرخ بیکاری استرالیا (AUD) | قبلی: 4.5%
+
+🔴🔴 ۱۶:۰۰ تهران | 12:30 UTC | 08:30 ET — Core PCE m/m آمریکا (USD)
+📊 قبلی: 0.2%
+📈 صعودی: PCE زیر 0.2% → Fed داویش → XAU↑ قوی
+📉 نزولی: PCE بالای 0.2% → Fed هاوکیش → DXY↑ → XAU↓ شدید
+⚡ مهم‌ترین داده هفته برای طلا
+
+🔴🔴 ۱۶:۰۰ تهران — Final GDP q/q آمریکا (USD) | قبلی: -0.5%
+🟡 ۱۶:۰۰ تهران — Unemployment Claims آمریکا | قبلی: 229K
+🟡 ۱۶:۰۳ تهران — Final GDP Price Index q/q | قبلی: 3.7%
+
+━━━━━━━━━━━━━━
+📌 قبل از ۱۶:۰۰ پوزیشن سنگین نگیرید
+📊 احتمالات: 🟢۲۰٪ | ⚪۲۵٪ | 🔴۵۵٪
+⚠️ Core PCE بالاتر از 0.3% = نوسان ۳۰۰+ پوینت
+#طلا #XAU #CorePCE #تحلیل_بنیادی`,
+    events:[
+      {name:'تغییر اشتغال استرالیا',sub:'Employment Change',cur:'AUD',time:'۰۹:۰۰',prev:'-18.6K',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'نرخ بیکاری استرالیا',sub:'Unemployment Rate',cur:'AUD',time:'۰۹:۰۰',prev:'4.5%',fore:'-',act:'-',imp:'h',xau:'neu'},
+      {name:'هسته شاخص قیمت هزینه‌های مصرف شخصی م/م 🔴',sub:'Core PCE Price Index m/m',cur:'USD',time:'۱۶:۰۰',prev:'0.2%',fore:'-',act:'-',imp:'h',xau:'bear'},
+      {name:'GDP نهایی آمریکا ف/ف 🔴',sub:'Final GDP q/q',cur:'USD',time:'۱۶:۰۰',prev:'-0.5%',fore:'-',act:'-',imp:'h',xau:'bear'},
+      {name:'مدعیان بیکاری آمریکا',sub:'Unemployment Claims',cur:'USD',time:'۱۶:۰۰',prev:'229K',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'شاخص قیمت GDP نهایی ف/ف',sub:'Final GDP Price Index q/q',cur:'USD',time:'۱۶:۰۳',prev:'3.7%',fore:'-',act:'-',imp:'m',xau:'neu'},
+    ]
+  },
+
+  // ── جمعه ۵ تیر | Fri Jun 26 ──
+  {id:4,dateISO:'2026-06-26',name:'جمعه',shamsi:'۵ تیر',greg:'Jun 26',bias:'neu',biasLabel:'نسبتاً آرام — هضم داده‌های دیروز',
+    prob:{bull:35,neu:40,bear:25},
+    narrative:'بازار در حال هضم Core PCE دیروز است. Tokyo Core CPI در ابتدای روز (ساعت ۰۳:۳۰ تهران) منتشر می‌شود که نشانه‌ای از تورم ژاپن برای BOJ است. شاخص اعتماد مصرف‌کننده میشیگان (نسخه اصلاح‌شده) در بعدازظهر آمریکا.',
+    chain:[
+      {step:'رویداد',val:'Tokyo Core CPI + UoM Consumer Sentiment (اصلاحی)'},
+      {step:'تأثیر اقتصادی',val:'تورم ژاپن + انتظارات تورمی آمریکا'},
+      {step:'انتظارات BOJ/Fed',val:'Tokyo CPI بالا → BOJ هاوکیش → ین قوی'},
+      {step:'DXY / Yields',val:'UoM Inflation Expectations بالا → Fed نگران'},
+      {step:'XAU/USD',val:'جهت وابسته به هضم PCE دیروز'}
+    ],
+    telegram:`📊🔥 مهم‌ترین اخبار جمعه ۵ تیر | Jun 26
+به وقت تهران (IRST) | UTC/ET
+
+📌 بازار هنوز در حال هضم Core PCE دیروز است
+
+🟡 ۰۳:۳۰ تهران | 00:00 UTC — Tokyo Core CPI y/y ژاپن (JPY)
+📊 قبلی: 1.3%
+📈 CPI بالا → BOJ هاوکیش → ین قوی → ریسک‌آف → XAU احتمالاً حمایت
+📉 CPI ضعیف → BOJ داویش → XAU سست
+
+🟡 ۱۷:۳۰ تهران | 14:00 UTC | 10:00 ET — UoM Consumer Sentiment اصلاحی (USD)
+📊 قبلی: 48.9
+
+🟡 ۱۷:۳۰ تهران — UoM Inflation Expectations اصلاحی (USD) | قبلی: 4.6%
+💡 انتظارات تورمی بالا → Fed نگران → DXY↑ → XAU↓
+
+━━━━━━━━━━━━━━
+📌 جمع‌بندی: روز هضم و تثبیت
+📊 احتمالات: 🟢۳۵٪ | ⚪۴۰٪ | 🔴۲۵٪
+#طلا #XAU #تحلیل_بنیادی`,
+    events:[
+      {name:'هسته CPI توکیو سال‌به‌سال',sub:'Tokyo Core CPI y/y',cur:'JPY',time:'۰۳:۳۰',prev:'1.3%',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'شاخص اعتماد مصرف‌کننده میشیگان — اصلاحی',sub:'Revised UoM Consumer Sentiment',cur:'USD',time:'۱۷:۳۰',prev:'48.9',fore:'-',act:'-',imp:'m',xau:'neu'},
+      {name:'انتظارات تورمی میشیگان — اصلاحی',sub:'Revised UoM Inflation Expectations',cur:'USD',time:'۱۷:۳۰',prev:'4.6%',fore:'-',act:'-',imp:'m',xau:'neu'},
+    ]
+  }
+];
+
+const LIVE_WINDOW={h:45*60000,m:30*60000,l:15*60000};
+
+/* ── AUTO-SELECT DAY based on Tehran time + smart fallback ── */
+function getActiveDayIndex(){
+  const now=new Date();
+  // Get Tehran date string
+  const tehranStr=new Intl.DateTimeFormat('en-US',{
+    timeZone:'Asia/Tehran',year:'numeric',month:'2-digit',day:'2-digit'
+  }).format(now);
+  const parts=tehranStr.split('/');
+  const tehranDate=`${parts[2]}-${parts[0]}-${parts[1]}`;
+
+  // 1. Exact match
+  const exact=DAYS.findIndex(d=>d.dateISO===tehranDate);
+  if(exact!==-1)return exact;
+
+  // 2. Before the week starts → Monday (0)
+  if(tehranDate<DAYS[0].dateISO)return 0;
+
+  // 3. After the week ends → Friday (4)
+  if(tehranDate>DAYS[4].dateISO)return 4;
+
+  // 4. Between two days in the week
+  for(let i=0;i<DAYS.length-1;i++){
+    if(tehranDate>=DAYS[i].dateISO&&tehranDate<DAYS[i+1].dateISO)return i;
+  }
+  return 0;
+}
+
+let activeDay=getActiveDayIndex();
+
+function buildWeekBtns(){
+  const c=document.getElementById('week-btns');
+  c.innerHTML=DAYS.map(d=>{
+    const dots=d.events.map(e=>`<div class="wd-dot ${e.imp}"></div>`).join('');
+    const biasC=d.bias==='bull'?'#1DB87A':d.bias==='bear'?'#E05252':'#8A9BB8';
+    return`<div class="week-day-btn${d.id===activeDay?' active':''}" onclick="selectDay(${d.id})">
+      <div class="wd-greg">${d.greg}</div>
+      <div class="wd-name">${d.name}</div>
+      <div class="wd-shamsi" style="color:${biasC};font-size:9px;font-weight:700">${d.shamsi}</div>
+      <div class="wd-dots">${dots}</div>
+    </div>`;
+  }).join('');
+  // Scroll active button into view on mobile
+  setTimeout(()=>{
+    const btns=c.querySelectorAll('.week-day-btn');
+    if(btns[activeDay])btns[activeDay].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  },100);
+}
+
+function buildTimeline(d){
+  const im={h:'imp-h',m:'imp-m',l:'imp-l'};
+  const il={h:'بالا',m:'متوسط',l:'پایین'};
+  const cm={USD:'cur-usd',JPY:'cur-jpy',EUR:'cur-eur',CAD:'cur-cad',GBP:'cur-gbp',AUD:'cur-aud'};
+  const xh={bull:'<span class="xau-up">↑ صعودی</span>',bear:'<span class="xau-dn">↓ نزولی</span>',neu:'<span class="xau-ne">→ خنثی</span>'};
+
+  const items=d.events.map((ev,i)=>{
+    const isAllDay=ev.time==='تمام روز';
+    let dataAttrs;
+    if(isAllDay){
+      const start=new Date(`${d.dateISO}T00:00:00+03:30`).getTime();
+      const end=new Date(`${d.dateISO}T23:59:59+03:30`).getTime();
+      dataAttrs=`data-allday="1" data-start="${start}" data-end="${end}"`;
+    }else{
+      const t=faToEn(ev.time);
+      const evTime=new Date(`${d.dateISO}T${t}:00+03:30`).getTime();
+      dataAttrs=`data-allday="0" data-time="${evTime}" data-livewindow="${LIVE_WINDOW[ev.imp]}"`;
+    }
+    const cardId=`tl-card-${d.id}-${i}`;
+    return`
+    <div class="tl-item" ${dataAttrs} style="animation-delay:${i*.06}s">
+      <div class="tl-track"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-card" id="${cardId}">
+        <div class="tl-card-head" onclick="toggleTl('${cardId}')">
+          <div class="tl-time-block">
+            <div class="tl-time">${ev.time}</div>
+            <div class="tl-status" data-role="status">···</div>
+          </div>
+          <div class="tl-main">
+            <div class="tl-name-row">
+              <span class="cur-badge ${cm[ev.cur]||'cur-usd'}">${ev.cur}</span>
+              <span class="imp-badge ${im[ev.imp]}">${il[ev.imp]}</span>
+              <span class="tl-name">${ev.name}</span>
+            </div>
+            ${ev.sub?`<div class="tl-sub">${ev.sub}</div>`:''}
+          </div>
+          <div class="tl-xau">${xh[ev.xau]}</div>
+          <div class="tl-chevron">▼</div>
+        </div>
+        <div class="tl-card-body">
+          <div class="tl-detail-grid">
+            <div class="tl-detail-item"><div class="tl-detail-label">قبلی</div><div class="tl-detail-val">${ev.prev}</div></div>
+            <div class="tl-detail-item"><div class="tl-detail-label">پیش‌بینی</div><div class="tl-detail-val">${ev.fore}</div></div>
+            <div class="tl-detail-item"><div class="tl-detail-label">فعلی</div><div class="tl-detail-val">${ev.act}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return`<div class="tl-wrap">${items}</div>`;
+}
+
+function toggleTl(id){const el=document.getElementById(id);if(el)el.classList.toggle('open')}
+
+function updateTimers(){
+  const now=Date.now();
+  document.querySelectorAll('.tl-item').forEach(item=>{
+    const statusEl=item.querySelector('[data-role="status"]');
+    if(!statusEl)return;
+    const isAllDay=item.dataset.allday==='1';
+    if(isAllDay){
+      const start=parseInt(item.dataset.start,10),end=parseInt(item.dataset.end,10);
+      if(now<start){item.classList.remove('ended','live');statusEl.textContent='⏳ '+formatRemaining(start-now)}
+      else if(now<=end){item.classList.remove('ended');item.classList.add('live');statusEl.textContent='🔴 امروز'}
+      else{item.classList.remove('live');item.classList.add('ended');statusEl.textContent='✅ پایان یافته'}
+      return;
+    }
+    const evTime=parseInt(item.dataset.time,10),liveWin=parseInt(item.dataset.livewindow,10),diff=evTime-now;
+    if(diff>0){item.classList.remove('ended','live');statusEl.textContent='⏳ '+formatRemaining(diff)}
+    else if(now-evTime<=liveWin){item.classList.remove('ended');item.classList.add('live');statusEl.textContent='🔴 درحال انتشار'}
+    else{item.classList.remove('live');item.classList.add('ended');statusEl.textContent='✅ پایان یافته'}
+  });
+}
+setInterval(updateTimers,1000);
+
+function buildTgCard(d){
+  return`
+  <div class="tg-card">
+    <div class="tg-hdr">
+      <div class="tg-av">MF</div>
+      <div><div class="tg-ch">Mehdi Farahmand | طلا</div><div class="tg-vs">XAU/USD · ${d.greg}</div></div>
+    </div>
+    <div class="tg-body">${d.telegram}</div>
+    <div class="tg-ts">${d.greg}, 2026 · 09:00 AM ✓✓</div>
+    <div class="tg-actions">
+      <button class="copy-btn" onclick="copyTg(${d.id},this)">کپی 📋</button>
+      <button class="share-btn" onclick="shareTg(${d.id},this)">اشتراک 📤</button>
+    </div>
+  </div>`;
+}
+
+function buildSwipeCards(d){
+  const chainItems=d.chain.map((c,i)=>`
+    <div class="sc-item">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="sc-dot"></div>
+        ${i<d.chain.length-1?'<div class="sc-line"></div>':''}
+      </div>
+      <div class="sc-text"><div class="sc-step">${c.step}</div><div class="sc-val">${c.val}</div></div>
+    </div>`).join('');
+  return`
+  <div class="narrative-swipe">
+    <div class="swipe-handle"></div>
+    <div class="swipe-card" id="sc-chain">
+      <div class="swipe-card-header" onclick="toggleSwipe('sc-chain')">
+        <span class="swipe-card-title">📍 مسیر تأثیر بر طلا</span>
+        <span class="swipe-chevron">▼</span>
+      </div>
+      <div class="swipe-card-body"><div class="swipe-chain">${chainItems}</div></div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="swipe-card" id="sc-prob">
+      <div class="swipe-card-header" onclick="toggleSwipe('sc-prob')">
+        <span class="swipe-card-title">📊 مدل احتمالات XAU/USD</span>
+        <span class="swipe-chevron">▼</span>
+      </div>
+      <div class="swipe-card-body">
+        <div class="prob-row">
+          <div class="prob-bull" style="width:0%" id="pb-bull-m">${d.prob.bull}٪</div>
+          <div class="prob-neu" style="width:0%" id="pb-neu-m">${d.prob.neu}٪</div>
+          <div class="prob-bear" style="width:0%" id="pb-bear-m">${d.prob.bear}٪</div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);line-height:2.1;margin-top:14px;font-weight:400">${d.narrative}</div>
+      </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="swipe-card" id="sc-tg">
+      <div class="swipe-card-header" onclick="toggleSwipe('sc-tg')">
+        <span class="swipe-card-title">📱 پست آماده تلگرام</span>
+        <span class="swipe-chevron">▼</span>
+      </div>
+      <div class="swipe-card-body">${buildTgCard(d)}</div>
+    </div>
+  </div>`;
+}
+
+function toggleSwipe(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const wasOpen=el.classList.contains('open');
+  el.classList.toggle('open');
+  if(!wasOpen&&id==='sc-prob'){
+    const d=DAYS[activeDay];
+    setTimeout(()=>{
+      const pb=document.getElementById('pb-bull-m');
+      if(pb){document.getElementById('pb-bull-m').style.width=d.prob.bull+'%';document.getElementById('pb-neu-m').style.width=d.prob.neu+'%';document.getElementById('pb-bear-m').style.width=d.prob.bear+'%'}
+    },100);
+  }else if(wasOpen&&id==='sc-prob'){
+    ['pb-bull-m','pb-neu-m','pb-bear-m'].forEach(i=>{const el2=document.getElementById(i);if(el2)el2.style.width='0%'});
+  }
+}
+
+function renderDay(id){
+  const d=DAYS[id];
+  const bm={bull:'bull',bear:'bear',neu:'neu'};
+  const ch=d.chain.map((c,i)=>`
+    <div class="sc-item">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="sc-dot"></div>
+        ${i<d.chain.length-1?'<div class="sc-line"></div>':''}
+      </div>
+      <div class="sc-text"><div class="sc-step">${c.step}</div><div class="sc-val">${c.val}</div></div>
+    </div>`).join('');
+
+  const panel=document.getElementById('day-panel');
+  panel.style.opacity='0';panel.style.transform='translateY(16px)';
+  panel.innerHTML=`
+    <div class="day-panel-header">
+      <div class="dph-top">
+        <div class="dph-date">
+          <div class="dph-day">${d.name} — ${d.shamsi}</div>
+          <div class="dph-dates"><span>${d.greg}, 2026</span><span>UTC+3:30 تهران</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+          <span class="dph-badge ${bm[d.bias]}">${d.biasLabel}</span>
+          <div class="bias-pills">
+            <span class="bias-pill bp-bull">🟢 ${d.prob.bull}٪</span>
+            <span class="bias-pill bp-neu">⚪ ${d.prob.neu}٪</span>
+            <span class="bias-pill bp-bear">🔴 ${d.prob.bear}٪</span>
+          </div>
+        </div>
+      </div>
+      <p class="narrative-desktop" style="font-size:13px;color:var(--text2);line-height:2.1;padding-bottom:4px;font-weight:400">${d.narrative}</p>
+    </div>
+    ${buildTimeline(d)}
+    ${buildSwipeCards(d)}
+    <div class="summary-wrap narrative-desktop">
+      <div class="sum-card">
+        <div class="sum-card-title">مسیر تأثیر بر طلا</div>
+        <div class="sum-chain">${ch}</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-card-title">مدل احتمالات XAU/USD</div>
+        <div class="prob-row">
+          <div class="prob-bull" style="width:0%" id="pb-bull">${d.prob.bull}٪</div>
+          <div class="prob-neu" style="width:0%" id="pb-neu">${d.prob.neu}٪</div>
+          <div class="prob-bear" style="width:0%" id="pb-bear">${d.prob.bear}٪</div>
+        </div>
+        <div class="sum-card-title" style="margin-top:20px">خلاصه روز</div>
+        <div class="sum-text">${d.narrative}</div>
+      </div>
+    </div>
+    <div class="tg-outer narrative-desktop">
+      <div class="tg-label">📱 پست آماده تلگرام</div>
+      ${buildTgCard(d)}
+    </div>`;
+  requestAnimationFrame(()=>{
+    panel.style.transition='opacity .5s ease,transform .5s ease';
+    panel.style.opacity='1';panel.style.transform='none';
+    setTimeout(()=>{
+      const pb=document.getElementById('pb-bull');
+      if(pb){document.getElementById('pb-bull').style.width=d.prob.bull+'%';document.getElementById('pb-neu').style.width=d.prob.neu+'%';document.getElementById('pb-bear').style.width=d.prob.bear+'%'}
+    },300);
+  });
+  updateTimers();
+}
+
+function selectDay(id){
+  activeDay=id;
+  document.querySelectorAll('.week-day-btn').forEach((b,i)=>b.classList.toggle('active',i===id));
+  renderDay(id);
+  document.getElementById('day-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function copyTg(id,btn){
+  navigator.clipboard.writeText(DAYS[id].telegram).then(()=>{
+    if(btn){const orig=btn.innerHTML;btn.innerHTML='✅ کپی شد!';setTimeout(()=>btn.innerHTML=orig,2000)}
+  });
+}
+
+function shareTg(id,btn){
+  const text=DAYS[id].telegram;
+  if(navigator.share)navigator.share({title:'تحلیل طلا XAU/USD',text:text}).catch(()=>{});
+  else navigator.clipboard.writeText(text).then(()=>{if(btn){const orig=btn.innerHTML;btn.innerHTML='✅ کپی شد';setTimeout(()=>btn.innerHTML=orig,2000)}});
+}
+
+buildWeekBtns();
+renderDay(activeDay);
+
+const obs=new IntersectionObserver(els=>{els.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
